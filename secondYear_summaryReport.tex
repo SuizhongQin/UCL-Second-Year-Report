@@ -1,0 +1,187 @@
+\documentclass[12pt]{article}
+\usepackage[margin= 1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage[justification=centering]{caption}
+\usepackage[nottoc]{tocbibind}
+\usepackage{fancyhdr}
+\usepackage{wrapfig}
+\usepackage{hyphenat}
+\lfoot{}%footer
+\cfoot{}
+\rfoot{}
+\makeatletter % `@' now normal "letter"
+
+\makeatother  % `@' is restored as "non-letter"
+\renewcommand\theequation{\oldstylenums{\thesection}%
+                   .\oldstylenums{\arabic{equation}}}
+
+
+%title
+\title{ELEC0009 \\Analog Electronics: Transistor \\Summary Report}
+\author{Suizhong Qin \\Student ID: 17018962 \\ \\Lab Partner: Lorenzo Bonito\\Module Tutor: Dr  Arsam Shiraz \\ \\ Department: Electronic and Electrical Engineering \\ University College London}
+
+\begin{document}
+    %cover page
+    \begin{figure}[t] %htbp
+    \centering
+    \includegraphics[width=0.8\textwidth]{logo.pdf}
+    \end{figure}
+    \maketitle
+    \thispagestyle{empty}
+
+    %contents page
+    \newpage
+    \tableofcontents
+    \thispagestyle{empty}
+    \setcounter{page}{0}
+    
+    %start of the main document
+    \newpage
+    \pagestyle{plain}
+    \section{Introduction}
+    \paragraph{}
+    With the development of modern electronics, the field of Integrated Circuit(IC) has become a cutting-edge technology. Billions of electronic components are able to integrate in a small silicon chip\cite{1}. The transistor, as a basic component unit in integrated circuits, which is used to amplify and switch signals to meet desired requirements.
+    \paragraph{}
+    In this laboratory session, we are expected to discovery some properties and applications of transistors. To be specific, revising the understanding of basic transistor knowledge at direct current condition, such as current gain($\beta$), and the Early effect. Then, gaining an appreciation of transistor mismatch and other unexpected consequences in real-world circuits. Eventually, by constructing a current mirror circuit, to investigate how the non-ideal circumstances and mismatch influence the circuit's behaviour. 
+    
+    \section{Methods}
+    \subsection{Apparatus}
+    \paragraph{}
+    \begin{itemize}
+    \item
+    Standard lab equipment: Oscilloscope, Power Supply, Multimeter
+    \item 
+    A transistor curve tracer board
+    \item
+    BCM846BS matched NPN pair on a small adapter board (Figure 1)
+    \item
+    Software: Multisim for simulating circuits, and MATLAB for plotting graphs
+    \end{itemize}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.35\textwidth]{pinout.png}
+    \caption{Simplified Outline and Graphic Symbol for the BCM846BS\cite{2}}
+    \end{figure}
+    
+    \subsection{Approach}
+    \paragraph{}
+    Before starting of measurements, considering a transistor as a current controlled current source(CCCS), where the collector current, $I_C$, is calculated only by the base current, $I_B$, and the current gain, $\beta$, is therefore: $\beta = \frac{I_C}{I_B}$. However, the collector voltage, $V_C$, which can affect $I_C$ as well in real circuits.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{ICVC.png}
+    \caption{$I_C$ Against $V_C$ for Different Values of $I_B$ (Dashed lines represent the ideal circuit)}
+    \end{figure}
+    In Figure 2, it shows the relationship between $I_C$ and $V_C$ for a non-ideal CCCS. In order to investigate the gradient of these curves, the Early Voltage, $V_{AF}$ is introduced by extrapolating current lines to y-axis.
+    
+    \paragraph{}
+    The Graph likes Figure 2 can be plotted by a curve tracer. The curve tracer circuit is provided and connecting it to the power supply, oscilloscope, and a transistor. Then, observing the traces and setting the oscilloscope into the X-Y mode. Under this mode, the Channel one will be plotted on the x-axis, and the Channel two will be plotted on the y-axis. It is important to calibrate curve tracer before the test. Adjusting the calibration potentialmeter carefully, there should be three stepped waves(250mV, 500mV, and 750mV). These values are corresponding to 25$\mu$A, 50$\mu$A, 75$\mu$A of base current respectively. Ensuring the calibrated values are close to these voltages in order to get accurate results.  
+    
+    \paragraph{}
+    For BCM846, two matched transistors have built inside of it. Firstly, test both built-in transistors by curve tracer. Observing two outputs and comparing them. Then exporting all data from the oscilloscope (changing the mode back to X-T) as a cvs file. Plotting graphs on MATLAB by these two group of data, and comparing the shape of waves. Investigating whether two curves are matched or mismatched. Using two plotted graphs, finding the Early Voltage, $V_{AF}$, by extrapolating the curves until they meet the y-axis. To find the Early Voltage, it is quite challenging to calculate each value by hands. Since there is no extrapolation function in MATLAB, it consumes a lot of time to get the final values. 
+    
+    \paragraph{}
+    Now, switching two built-in transistors into to two unmatched transistors. The transistor ZTX450 is chosen for this test. In order to have a accurate experiment, these two ZTX450 transistors must have same part number. Repeating all previous procedures using these two unmatched transistors, and comparing the result with the matched transistors' result. 
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.35\textwidth]{programmable.png}
+    \caption{Programming Current Mirror Circuit with Resistor and Ammeter \cite{3}}
+    \end{figure}
+    \paragraph{}
+    This part mainly focus on Current Mirror circuit. Using the matched transistor in the previous task to build this circuit. The resistor, $R_{prog}$, is used to set the programming circuit. Firstly, calculating the $R_{prog}$ when $i_{in}=1 mA$, and producing a 5V input($V_{in}$) by the power supply. Then, taking measurements of $i_{out}$ by an ammeter, and $V_c$ by an oscilloscope. After that, recording the previous variables $i_{out}$ and $V_c$ by changing the range $0-10V$ of $V_{in}$. Finally, plotting graphs and investigating the relationship between $i_{out}$ and $V_c$. It is quite challenging to record such a big group of data, as all the readings vary when taking measurements. This leads an inaccurate results and plotted graphs. 
+    
+    \paragraph{}
+    The above current mirror experiment are designed for well matched transistors. However, in this time, building an identical current mirror circuit with two unmatched transistors but with same part number, such as ZTX450 mentioned previously. Using the same process, and plotting a graph to observe the relationship between $i_{out}$ and $V_c$. Eventually, comparing the result with the matched transistors' one.
+    \section{Results}
+    \subsection{Transistors Measurement}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{cali.png}
+    \caption{The Graph or Calibration of the Curve Tracer}
+    \end{figure}
+    \paragraph{}
+    After calibrating the curve tracer, putting a probing pin on the board, the actual voltages shown on the oscilloscope is about 252mV, 502mV, and 752mV respectively as shown in Figure 4. Then, observing the plotted graphs for two matched transistors: there is no discrepancies between two curves, and they overlap and match perfectly. The graph is shown in Figure 5.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{lab1_1.jpg}
+    \caption{Ic against Vc for Matched Transistors}
+    \end{figure}
+    \paragraph{}
+    When extrapolating the curves to find Early Voltages, two points are taken from each of the curve. Such as, (7.6, 2.64) and (1.63, 2.49), (1, 1.83) and (1.08, 1.73), (7.62, 0.984) and (0.58, 0.914). By calculation, the Early Voltage for each curve is almost same. As for the Current Gain, $\beta$, the equation is given: $\beta = \frac{I_C}{I_B}$. Taking values from Figure 5, The $\beta$ can be easily calculated. The actual results are quite similar(about 40). Theoretically, the current gain should be same in a perfect ideal model. 
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{lab1_2.jpg}
+    \caption{Ic against Vc for one of the Unmatched Transistors}
+    \end{figure}
+
+    \paragraph{}
+    Changing the matched transistors into unmatched transistors. Things are different from the previous discoveries. Under this situation, it is hard to estimate the extrapolation of three curves with the y-axis, since they are relatively horizontal than the previous one. Then comparing two graphs plotted by MATLAB, there are discrepancies between two graphs, which means two transistors are not matched. By using the equation,$\beta = \frac{I_C}{I_B}$, the values of current gain are slightly different for all three lines. Comparing with the matched transistors, the gradient for unmatched transistors is smaller and this can lead a greater Early Voltage.
+    
+    \subsection{Current Mirror}
+    \paragraph{}
+    Moving to the second part, the current mirror circuit. Given that the $i_{in}=1 mA$,$V_{BE}=0.7V$ calculate the $R_{prog}$:
+    \begin{equation}
+        R_{prog}=\frac{5V-V_{BE}}{1mA}=4.3k\Omega
+    \end{equation}
+    Then building the desired circuit. Recording Output current and collector voltage when varies $V_{in}$ from 0 to 10V. A graph can be plotted:
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{lab1_3.jpg}
+    \caption{Output Current against $V_c$ for Matched Transistors}
+    \end{figure}
+    From this graph, the output current and the Vc shows a positive correlation. It does not display a correct relationship between these two variables. It should be a measurement error. For an ideal circuits, there should be a sudden jump at around 1mA when Vc starts to increase. Then, the output current will rise as Vc rises. The current mirror circuit can only generate relatively constant current at lower collector voltage. Current mirror is a better current source compared with voltage and the resistor.
+    
+    
+    
+    \section{Impact}
+    \paragraph{}
+    Through this lab session, the properties of matched and mismatched transistors have been evaluated. For matched transistors, their collector current and collector voltage are smooth. Therefore, the Early Voltage can be neglected under a small signal. The current mirror circuit has many applications on microelectronics field, such as integrated circuits. Since the property of the current mirror, it can provide a relatively constant current under small electronic signals. Meanwhile, the current mirror circuit has lower production cost and small size due to its simplicity of the circuit.
+    
+    
+    
+    
+    \section{Conclusion}
+    \paragraph{}
+    In this summary lab report, a basic understanding of matched and mismatched transistors' behaviours in the real-world circuits has been discussed. Although, there are some measurement errors in the current mirror part. By deducting the current mirror properties based on textbooks, the relationship between output current and collector voltage can still be figured out. Because of the characteristic of the current mirror circuit, constant current at low signals, it will play a vital role in the future microelectronics designing.
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    \newpage   
+    \begin{thebibliography}{}
+    \bibitem{1}
+    Sedra, A., Smith, K., Carusone, T. and Gaudet, V. (2018). Microelectronic Circuits. 7th.
+    
+    \bibitem{2}
+    Assets.nexperia.com. (2019). [online] Available at: $https://assets.nexperia.com/documents/data-sheet/BCM846BS$
+    
+    \bibitem{3}
+    Moodle.ucl.ac.uk. (2019). UCL Moodle. [online] Available at: $https://moodle.ucl.ac.uk/pluginfile.php/1132347/mod_resource/content/5/ \\ translab_latest.pdf [Accessed 2 Dec. 2019].$
+      
+      
+      
+    \end{thebibliography}
+    
+\end{document}
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

@@ -1,0 +1,348 @@
+\documentclass[12pt]{article}
+\usepackage[margin= 1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage[justification=centering]{caption}
+\usepackage[nottoc]{tocbibind}
+\usepackage{fancyhdr}
+\usepackage{wrapfig}
+\usepackage{hyphenat}
+\usepackage{textcomp}
+\lfoot{}%footer
+\cfoot{}
+\rfoot{}
+\makeatletter % `@' now normal "letter"
+\makeatother  % `@' is restored as "non-letter"
+\renewcommand\theequation{\oldstylenums{\thesection}%
+                   .\oldstylenums{\arabic{equation}}}
+
+%title
+\title{ELEC0020 \\ Photonics Laboratory\\Full Report}
+\author{Suizhong Qin \\Student ID: 17018962 \\Module Tutor: Dr Martyn Fice \\\\ Department: Electronic and Electrical Engineering \\ University College London}
+
+\begin{document}
+    %cover page
+    \begin{figure}[t] %htbp
+    \centering
+    \includegraphics[width=0.8\textwidth]{logo.pdf}
+    \end{figure}
+    \maketitle
+    \thispagestyle{empty}
+    
+    %abstract
+    \newpage
+    \begin{abstract}
+
+    This full lab report focuses on a simple photonics system and its essential characteristics. The LED or laser is used as the optical transmitter, and the photodiode is used as the optical receiver. An optical fibre connects these two major parts. Five laboratory tasks are required to conduct.
+
+    Record the data and plot the VI and LI diagrams for both LED and laser. The frequency response and square wave graphs are plotted to illustrate frequency response to a modulated laser. The attenuation of the POF is found by calculation. Eventually, observe the changes when the receiver load resistor is switched to the transimpedance receiver circuit. 
+    
+    Through the experiment, most measurement and calculated values are different from the typical values of the datasheet. Some of the uncertainties are inevitable, such as temperature. By analysing those recorded values, most errors are within an acceptable range. 
+    \end{abstract}
+    \thispagestyle{empty}
+    
+    %contents page
+    \newpage
+    \tableofcontents
+    \thispagestyle{empty}
+    \setcounter{page}{0}
+    
+    %start of the main document
+    \newpage
+    \pagestyle{plain}
+    \section{Introduction}
+    \paragraph{}
+    Light can be seen everywhere in our daily life. The study involving light regards as photonics. By the discovery of properties of light, scientists found that photons are elementary particles of light, and light have wave-particle duality. Photonics is a vast and flourishing industry nowadays. Along with the development of this technology, the possibilities of photonics applications are limitless. For instance, solid-state lighting and optical communication\cite{1}. Those applications bring high efficient lighting and communication systems.
+    
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{1.png}
+    \caption{The General Photonics System}
+    \end{figure}
+    Figure 1 demonstrates the general form of the photonics system. There are three major parts in the system, optical transmitter, transmission medium, and optical receiver. As for the optical source, such as LED or laser, which produces modulated light from input signals. Then,the light propagates through the transmission medium, such as vacuum or optical fibre. Eventually, the optical detector receives the light\cite{2}. The whole process makes up a simple photonics system.
+    
+    \paragraph{}
+    This laboratory session aims for investigating the optical and electronic properties of some critical photonic components: an LED, a laser, and a photodiode(PD). The experiment conducts under a simple optical fibre communications system. Taking LED or laser as transmitter and photodiode as receiver, connecting two parts by an optical fibre. Besides, obtaining the optical fibre's attenuation value while the light propagates through the fibre.
+    
+    
+    \section{Preparation}
+    \paragraph{}
+    Before the experiment, an LED, a laser diode, and a photodiode are provided. From the datasheet of the LED and the laser diode, the part number for the LED is L-7113SRD-J4\cite{3}, which is a super bright red LED, and the part number for the laser diode is ADL-65055TL\cite{4}. Both the LED and the laser diode use AlGaInP as the semiconductor material. The dominant emission wavelength for the LED is around 640$nm$, and the typical wavelength for the laser is around 655 $nm$. As for the spectral width, the LED has 40$nm$ and the laser has 15$nm$. The typical threshold current for the laser is 18$mA$ at 25 \textcelsius{}. From the datasheet, the $I_{th}$ is about 23.5$mA$ at 50 \textcelsius{}. The equation for the characteristic temperature $T_{0}$ is:
+    \begin{equation}
+        \frac{I_{th}(T_{1})}{I_{th}(T_{2})}=exp\left[ \frac{\left ( T_{1}- T_{2}\right )}{T_{0}}\right ]
+    \end{equation}
+    Therefore, the $T_{0}$ is approximately 93.8$K$.
+    
+    \paragraph{}
+    From the graph in the LED datasheet, the forward voltage is around 2.13$V$ when the forward current is 25$mA$. The resistance of the series resistor should be: $R=\frac{V_{S}-V_{F}}{I_{F}}=\frac{5V-2.13V}{25mA}=114.8\Omega$. As for the laser diode, the I-V graph shows the voltage is about 2.15$V$ when the operating current is 25$mA$. Thus, for the laser diode: $R=\frac{V_{S}-V_{F}}{I_{F}}=\frac{5V-2.15V}{25mA}=114\Omega$. There two values are quite similar.
+    
+    \paragraph{}
+    For the last essential components, the photodiode, which the part number is BPW20RF\cite{5}. Silicon PN junction is the semiconductor material to fabricate this photodiode. Under the spectral range between 400$nm$ and 1100$nm$, the photodiode can perform normally. The absolute maximum reverse voltage is 10$V$, and the capacitance is around 400$pF$ when $V_{R}=5V$. Since the typical operating current for the laser diode is 25$mA$, and $P_{0}=5mW$. The value for the photodiode responsivity is: $R_{s}=\frac{I_{0}}{P_{0}}=0.38A/W$. Before the experiment, laser safety is a critical topic. Since the laser used in the lab is Class 2 laser, the plastic cover of the laser should not be removed at any time during the experiment.
+    
+    \section{Tasks}
+    \subsection{Task 1: Measure the Characteristics of the LED}
+    \subsubsection{Procedure}
+    \paragraph{}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{2.png}
+    \caption{The Circuit Diagram for LED or Laser Photonics System\cite{6}}
+    \end{figure}
+    Figure 2 illustrates the circuit diagram of LED or laser photonics system. In this task, the LED is used as optical transmitter, and photodiode as optical receiver. Connecting two major parts by a one meter optical fibre. The power supply sets to 5$V$ DC. In order to ensure the forward current is 25$mA$, the forward voltage should be approximately 2.13$V$. This value comes from the graph in the LED datasheet. Hence, the resistance of $R_{T}$ should be $R_{T}=\frac{V_{S}-V_{F}}{I_{F}}=\frac{5V-2.13V}{25mA}=114.8\Omega$, which is stated in the Preparation section.
+    
+    \paragraph{}
+    To ensure the safety of the circuit, setting the LED power supply current and voltage limits to 30$mA$ and 6$V$ respectively. Setting the photodiode power supply current and voltage limits to 5$mA$ and 6$V$ respectively. The LED should be forward-bias and the photodiode should be reverse-bias. After building the entire circuit, varying the LED's forward current in a range up to 25$mA$. Recording voltage values across the LED and photodiode's load resistor. Later, using the recording data to plot VI(voltage-current) and LI(light-current) diagrams. 
+    
+    \subsubsection{Result}
+    \paragraph{}
+    \begin{figure}[h]
+    \centering
+    \begin{minipage}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=7.55cm]{3.png}
+    \caption{V-I Diagram for the LED}
+    \end{minipage}
+    \begin{minipage}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=7.55cm]{4.png}
+    \caption{L-I Diagram for the LED}
+    \end{minipage}
+    \end{figure}
+    In Appendix A.1, Table 1 demonstrates the lab data. The data is plotted in Figure 3 and 4. From the Figure 3, when the forward current is 25$mA$, the voltage across the LED is around 1.895$V$. As for the Figure 4, it shows light intensity against forward current. When the LED forward current is 25$mA$, the light intensity is around 87$mV$. According to the formula and obtaining the current in the PD circuit: $I=\frac{87mV}{10k\Omega}=8.7\times10^{-6}A$, and the optical power is: $P=\frac{I_{0}}{R}=\frac{8.7\times10^{-6}A}{0.38A/W}=2.29\times10^{-5}W$.
+    
+    \subsubsection{Discussion}
+    \paragraph{}
+    The pattern for the Figure 3 is typical. The forward voltage is 1.895$V$ when the forward current is 25$mV$. By comparing it with the datasheet value, around 2.12$V$, they are slightly different. The shape for Figure 4 is sub-linear; this is due to the internal quantum efficiency  is lower at a higher temperature. The final optical power detected by the PD is approximately $2.29\times10^{-5}W$; this value is lower than the ideal value. Since the optical fibre connectors in our group are too loose, some energy dissipates at both ends of the optical fibre.
+    
+    
+    \subsection{Task 2: Measure the Characteristics of the Laser Diode}
+    \subsubsection{Procedure}
+    \paragraph{}
+    In this task, the general circuit is unchanged, and replacing the LED with the laser diode. It is aimed to investigate the characteristics of the laser diode. From the previous calculation, the resistance of the series resistor is: $R_{T}=114\Omega$, which means the series resistor $R_{T}$ does not need to change. Then, repeating the same procedures as the Task one. Recording the values of voltage across the laser and the PD's load resistor.
+  
+    \subsubsection{Result}
+    \paragraph{}
+    \begin{figure}[h]
+    \centering
+    \begin{minipage}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=7.55cm]{5.png}
+    \caption{V-I Diagram for the Laser}
+    \end{minipage}
+    \begin{minipage}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=7.55cm]{6.png}
+    \caption{Voltage across PD's Load Resistor against I Diagram for the Laser}
+    \end{minipage}
+    \end{figure}
+    In Appendix A.2, Table 2 shows the recorded data from task two. The data is plotted in Figure 5 and 6. From Figure 6, the threshold current is about 20$mA$. By comparing it with the value from the laser datasheet, a typical threshold current is about 18$mA$. 
+    \subsubsection{Discussion}
+    \paragraph{}
+    By comparison, Figure 3 and 5 have similar patterns. From Figure 5, the operating voltage is about 2.2$V$, which is higher than the forward voltage of the LED. From the datasheet, the typical operating voltage is 2.2$V$, which matches the real measurement result. As for the Figure 4 and 6, they have different shapes. Figures 6 can identify the threshold current, which is about 20$mA$. Due to some external conditions, such as temperature. The real threshold current is higher than the ideal one. 
+    
+    
+    
+    \subsection{Task 3: Modulation of the Laser Diode and Frequency Response of System}
+    \subsubsection{Procedure}
+    \paragraph{}
+    Keeping the basic circuit unchanged, removing the current-meter and the volt-meter from the circuit. Changing the power supply to the AC source. The Task 3 is aimed for investigation of laser diode modulation and the frequency response of this system. Before the modulation, biasing the laser above the threshold current with a DC offset is necessary. The biased laser current should be the halfway between the threshold current and 25$mA$.
+    \begin{equation}
+        I_{bias}=\frac{I_{th}+25mA}{2}=22.5mA
+    \end{equation}
+    Thus, the DC offset voltage can be deduced: $V_{offset}=(R_{T}+R_{in})\times I+V_{operating}=(114\Omega+50\Omega)\times 0.0225A+2.2V=5.89V$. Then, vary the peak-to-peak current from $I_{th}$ to $25mA$, and determine the peak-to-peak voltage as well. To ensure the safety of the circuit, the maximum current should not exceeds $25mA$. The peak-to-peak voltage is:
+    \begin{equation}
+        V_{pp}=(25mA-I_{th})\times (R_{in}+R_{T})=0.82V
+    \end{equation}
+    After the calculation, setting the signal generator to $1kHz$ sine wave and DC offset, $V_{offset}=5.89V$, and the $V_{pp}=0.82V$. Then, adjusting the bias voltage and $V_{pp}$ until getting a clear and undistorted sine wave without exceeding the $25mA$. Varying the frequency, and record the receiver voltage, which is the output voltage. Therefore, the graph of frequency response against frequency can be plotted. Later, use the same signal generator settings to produce a square wave. Record the extinction ratio of the received signal at $1kHz$. Finally, observe patterns from the oscilloscope when frequencies rise.
+    
+    \subsubsection{Result}
+    \paragraph{}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.43\textwidth]{7.png}
+    \caption{The Frequency Response against Frequency}
+    \end{figure}
+    When the frequency response is $-3dB$, the bandwidth is around 30kHz. The equation for the bandwidth is: $f_c = \frac{1}{2 \pi R_L C} = \frac{1}{2 \pi \times 10k\Omega \times 400pF} = 3.98kHz$. Thus, the expected bandwidth should be 3.98kHz.
+    \begin{figure}[h]
+    \centering
+    \begin{minipage}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=7.5cm]{8.PNG}
+    \caption{The Square Wave for 1kHz Frequency}
+    \end{minipage}
+    \begin{minipage}[t]{0.45\textwidth}
+    \centering
+    \includegraphics[width=7.5cm]{9.PNG}
+    \caption{The Square Wave for 10kHz Frequency}
+    \end{minipage}
+    \end{figure}
+    
+    \subsubsection{Discussion}
+    \paragraph{}
+    From the equation $f_c = \frac{1}{2 \pi R_L C}$, the main factor to determine the bandwidth is the capacitance of the photodiode. By calculation, the $f_c =3.98kHz$, which is smaller than the value on the datasheet. Since the reverse voltage is less than 5V for the PD circuit, and the capacitance is greater than the value from the datasheet. Overall, the real value is smaller than the ideal one. When the PD reverse bias is changed from 0V to 5V, the depletion zone will rise, which means the PD's capacitance will fall. From the previous equation, the $f_{c}$ will increase. This will result a rise in bandwidth.
+    
+    
+    
+    
+    \subsection{Task 4: Measure the Loss of the Fibre}
+    \subsubsection{Procedure}
+    \paragraph{}
+    This task is aimed for measuring the loss of the optical fibre. Firstly, there is an equation to estimate whether a fibre is single-mode or multi-mode:
+    \begin{equation}
+        V = \frac{2 \pi a}{\lambda} \times Numerical Aperture
+    \end{equation}
+    In this equation, $a$ is the radius of the fibre, and it is 0.5mm for this fibre. The $\lambda$ is the wavelength in vacuum. The numerical aperture is 0.47. The boundary to decide whether it is single-mode or multi-mode is 2.405. Any values above 2.405 consider as single-mode. In this task, the value is higher than 2.405. Therefore, the fibre is single-mode. Then, use the same circuit in Task 3, and modulate the laser with a 1kHz sine wave. Adjust the offset and $V_{pp}$ to get a clear and undistorted diagram. A new ten meter fibre is provided, use this fibre connects with the one meter fibre, and repeat the same procedure as the previous measurement.
+    
+    
+    \subsubsection{Result and Discussion}
+    \paragraph{}
+     Set the $V_{pp}$ to 850$mV$, and the amplitude of the received signal is $136.78mV$. When two fibres are connected together, the total length is 11 meter, and the amplitude of the received signal is $25.67mV$, which is much smaller than the previous value. The equation for the attenuation of the POF is :
+    \begin{equation}
+    \alpha_{dB} = -20 \frac{1}{L} \log_{10}\frac{V_{new}}{V_{old}}
+    \end{equation}
+    The attenuation of the POF is therefore about 1.45 $dB/m$
+
+
+    \subsection{Task 5: Transimpedance Amplifier}
+    \subsubsection{Procedure}
+     Use a simple circuit of the transimpedance receiver. The operational amplifier made by ZX-741. This circuit is used to substitute the original load resistor receiver. Ensure the $R_{f}=R_{L}$ to obtain the same output voltage. Drive the laser by the method in task 3, generating the square wave and observe the output voltage. Then, add another compensation capacitor parallel to the $R_{f}$ and observe the output voltage.
+     \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{11.png}
+    \caption{Transimpedance Receiver Circuit Diagram}
+    \end{figure}
+    
+    
+    \subsubsection{Result and Discussion}
+    \paragraph{}
+    When there is no compensation capacitor, the transient response is that the ringing on the signal at the upper and lower edges of the square wave, and amplitudes attenuate gradually. In a very short time , the signal becomes a horizontal line. By adding a 100$pF$ compensation capacitor, there are fewer oscillations ,and the graph becomes clear with less noise. Noise is produced while the light propagates through the fibre. The compensation capacitor is used as a low-pass filter to eliminate some noise.
+    
+    
+  
+    
+    \section{Conclusion}
+    \paragraph{}
+     By investigating different photonics components, such as LED, laser diode, and photodiode, and analysing recorded data during the experiment, a better understanding of the basic photonics system is developed. This report explores the characteristics of the LED and the laser, the frequency response when the laser is modulated, and the properties of optical fibre. Those are the base of a simple photonics system. Photonics is a growing industry, and it benefits human from all aspects of daily life.
+    
+
+
+
+
+
+    \newpage   
+    \begin{thebibliography}{}
+    \bibitem{1}
+    Dr Martyn Fice. (n.d.). ELEC0020 Photonics and Communications Systems. p.Note for Lecture one, Page 5.
+    \bibitem{2}
+    Dr Martyn Fice. (n.d.). ELEC0020 Photonics and Communications Systems. p.Note for Lecture one, Page 8.
+    \bibitem{3}
+    Cui, F. (2012). LED Data Sheet. Kingbright, pp.Page 1, 2, 3.
+    \bibitem{4}
+    AlGaInP Visible Laser Diode. (2020). 1st ed. LASER COMPONENTS IG, Inc., pp.Page 1, 2.
+    \bibitem{5}
+    Silicon Photodiode, RoHS Compliant. (2011). 1st ed. Vishay Semiconductors, pp.Page 1, 2, 3.
+    \bibitem{6}
+    Dr Martyn Fice. (2020). ELEC0020: Photonics and Communication Systems Photonics Laboratory. UCL Electronic and Electrical Engineering, p.Page 4.
+    \end{thebibliography}
+    
+    
+    
+    \newpage
+    \appendix
+    \section{Lab Data Table}
+    \subsection{Task One}
+    \begin{table}[H]
+    \centering
+    \caption{Data from Task One}
+    \begin{tabular}{c c c}
+    \hline
+    Forward Current/mA & Forward Voltage/V &  Voltage across PD Load Resistor/mV \\
+    \hline
+    0.986             & 1.680             & 0                 \\
+    2.029             & 1.710             & 5                 \\
+    3.016             & 1.730             & 8                 \\
+    5.025             & 1.763            & 14                \\
+    7.075             & 1.786            & 20                \\
+    8.991             & 1.803            & 27                \\
+    10.052            & 1.812            & 30                \\
+    12.002            & 1.826            & 35                \\
+    14.106            & 1.840            & 40                \\
+    16.095            & 1.853            & 48                \\
+    18.038            & 1.864            & 54                \\
+    20.073            & 1.875            & 60                \\
+    22.055            & 1.885            & 70                \\
+    24.007            & 1.894            & 77                \\
+    25.620             & 1.898            & 88                \\ \hline
+    \end{tabular}
+    \end{table}
+    
+    \subsection{Task Two}
+    \begin{table}[H]
+    \centering
+    \caption{Data from Task Two}
+    \begin{tabular}{c c c}
+    \hline
+    Laser Current/mA & Laser Voltage/V &  Voltage across PD Load Resistor/mV \\
+    \hline
+    0      & 0     & 0  \\
+    2.102  & 1.875 & 0  \\
+    4.027  & 1.924 & 0  \\
+    6.046  & 1.962 & 0  \\
+    8.012  & 1.994 & 0  \\
+    10.027 & 2.021 & 0  \\
+    16.028 & 2.094 & 0  \\
+    18.074 & 2.116 & 1  \\
+    20.003 & 2.134 & 1  \\
+    22.058 & 2.154 & 4  \\
+    22.992 & 2.161 & 10 \\
+    23.367 & 2.165 & 20 \\
+    23.915 & 2.169 & 40 \\
+    24.245 & 2.172 & 50 \\
+    24.533 & 2.174 & 60 \\
+    24.808 & 2.176 & 70 \\
+    25.069 & 2.179 & 80 \\
+    \hline
+    \end{tabular}
+    \end{table}
+    
+    \subsection{Task Three}
+    \begin{table}[H]
+    \centering
+    \caption{Data from Task Three}
+    \begin{tabular}{c c c c}
+    \hline
+    Vout/V & Vin/V &  Frequency Response/dB & Frequency/kHz \\
+    \hline
+    0.2872 & 0.82 & 0.350243902 & 1   \\
+    0.2872 & 0.82 & 0.350243902 & 2   \\
+    0.2862 & 0.82 & 0.34902439  & 4   \\
+    0.2832 & 0.82 & 0.345365854 & 6   \\
+    0.2784 & 0.82 & 0.339512195 & 8   \\
+    0.2714 & 0.82 & 0.33097561  & 10  \\
+    0.2646 & 0.82 & 0.322682927 & 12  \\
+    0.2577 & 0.82 & 0.314268293 & 14  \\
+    0.2489 & 0.82 & 0.303536585 & 16  \\
+    0.2413 & 0.82 & 0.294268293 & 18  \\
+    0.2185 & 0.82 & 0.266463415 & 20  \\
+    0.2131 & 0.82 & 0.259878049 & 22  \\
+    0.2058 & 0.82 & 0.25097561  & 24  \\
+    0.198  & 0.82 & 0.241463415 & 26  \\
+    0.186  & 0.82 & 0.226829268 & 30  \\
+    0.1685 & 0.82 & 0.205487805 & 35  \\
+    0.1538 & 0.82 & 0.187560976 & 40  \\
+    0.132  & 0.82 & 0.16097561  & 50  \\
+    0.112  & 0.82 & 0.136585366 & 60  \\
+    0.098  & 0.82 & 0.119512195 & 70  \\
+    0.0863 & 0.82 & 0.105243902 & 80  \\
+    0.0734 & 0.82 & 0.089512195 & 100 \\
+    \hline
+    \end{tabular}
+    \end{table}
+
+
+
+
+\end{document}

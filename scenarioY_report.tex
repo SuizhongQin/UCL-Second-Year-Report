@@ -1,0 +1,202 @@
+\documentclass[12pt]{article}
+\usepackage[margin= 1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage[justification=centering]{caption}
+\usepackage[nottoc]{tocbibind}
+\usepackage{fancyhdr}
+\usepackage{wrapfig}
+\usepackage{hyphenat}
+\lfoot{}%footer
+\cfoot{}
+\rfoot{}
+\makeatletter % `@' now normal "letter"
+\makeatother  % `@' is restored as "non-letter"
+\renewcommand\theequation{\oldstylenums{\thesection}%
+                   .\oldstylenums{\arabic{equation}}}
+
+%title
+\title{Scenario Y: Transmission Line \\ Technical Report}
+\author{Suizhong Qin \\Student ID: 17018962 \\\\ Department: Electronic and Electrical Engineering \\ University College London}
+
+\begin{document}
+    %cover page
+    \begin{figure}[t] %htbp
+    \centering
+    \includegraphics[width=0.8\textwidth]{logo.pdf}
+    \end{figure}
+    \maketitle
+    \thispagestyle{empty}
+
+    %contents page
+    \newpage
+    \tableofcontents
+    \thispagestyle{empty}
+    \setcounter{page}{0}
+    
+    %start of the main document
+    \newpage
+    \pagestyle{plain}
+    \section{Introduction}
+    \paragraph{}
+    Along with the development of transmission line, alternative current and radio signal can be transmitted via different types of transmission cables. This technology allows massive data and information propagate with low loss and higher efficiency inside cables. Several types of transmission lines, such as coaxial cable, twisted line and twin-lead cable are widely used in many aspects, for instance, the distribution of cable TV signals, and computer Ethernet connection\cite{1}.  In this Scenario Week, we mainly investigated the properties of coaxial cable, and design a related experiment to obtain the dielectric constant of the coaxial cable. To be more specific, by setting up the testing system, two coaxial cables with different impedance are provided (50$\Omega$ and 75$\Omega$). Then changing the coaxial cables with different lengths. Recording the data and capturing the plots from the oscilloscope. The results of pulse propagation can be processed and the dielectric constant can be obtained eventually.
+    
+
+    \section{Theory}
+    \subsection{Coaxial Cable}
+    \paragraph{}
+    Coaxial cable is a electric cable and it contains four main layers. The inner core is made by copper. The copper core is covered by dielectric insulator, and they are enclosed by a metallic shield, which is conductive. The outer layer is plastic and prevents leakage\cite{2}. The unique design of the coaxial cable enables low loss of signal during transmission. This is due to the reason that two conductive part in a coaxial cable, both the forward pulse and the reflected pulse will generate electromagnetic field. The electromagnetic field only take place between these two conductive parts. Therefore, the coaxial cables ensure high efficiency during signal transmission.
+    
+    
+    \subsection{Duty Cycle}
+    \paragraph{}
+    Duty cycle is the percentage of pulse duration in one period. The equation is given below:
+    \begin{equation}
+        D=\frac{Pulse \ Width}{Period}
+    \end{equation}
+    During this experiment, the signal generator must produce a small duty cycle square signal. This step is to make sure that the reflected signal does not overlap the next incident signal. Usually, the coaxial cable carries very high frequency signal. Thus, in this case, setting the signal generator by using 10kHz frequency and 0.04\% duty cycle.  
+    
+    \subsection{Speed of Wave}
+    \paragraph{}
+    The speed of wave, also is called phase velocity. The phase velocity is the speed of phase propagation in space. By the derivation, the equation for the phase velocity is given blow:
+    \begin{equation}
+        v=\frac{\omega}{k}=\sqrt{\frac{1}{LC}}
+    \end{equation}
+    The $L$ is the inductance of the coaxial cable, and the $C$ is the capacitance of the coaxial cable. Therefore, by obtaining the values of inductance and capacitance, the phase velocity can be calculated. The equation for $L$ inductance is:
+    \begin{equation}
+        L=\frac{\mu_{0}\mu_{r}}{2\pi}\ln(\frac{b}{a})
+    \end{equation}
+    The equation for capacitance is given below:
+    \begin{equation}
+        C=\frac{2\pi\varepsilon_{0}\varepsilon_{r}}{\ln(\frac{b}{a})}
+    \end{equation}
+    For both equations, the $b$ is the outer radius, and the $a$ is the inner radius. The term $\mu_{0}$ is the permeability in vacuum, and $\mu_{0} = 1.257\times10^{-6}\ H/m$, and $\mu_{r}\approx1$. The term $\varepsilon_{0}$ is the permittivity in vacuum, is about $8.854 \times 10^{-12} \ C/V m$, and $\varepsilon_{r}$ is the relative permittivity, called dielectric constant as well. 
+    
+    \subsection{Dielectric Constant}
+    \paragraph{}
+    Dielectric constant is also called relative permittivity. The relative permittivity is the ratio of absolute permittivity to the vacuum permittivity. By substitute Equation (2.3) and Equation (2.4) into Equation (2.2), a new equation for phase velocity can be obtained:
+    \begin{equation}
+        v=\sqrt{\frac{1}{\frac{\mu_{0}\mu_{r}}{2\pi}\ln(\frac{b}{a})\times \frac{2\pi\varepsilon_{0}\varepsilon_{r}}{\ln(\frac{b}{a})}}}
+    \end{equation}
+    \begin{equation}
+        v=\sqrt{\frac{1}{\mu_{0}\mu_{r}\varepsilon_{0}\varepsilon_{r}}}
+    \end{equation}
+    By rearranging the Equation (2.6), the dielectric constant can be found:
+    \begin{equation}
+        \varepsilon_{r}=\frac{1}{v^2\mu_{0}\mu_{r}\varepsilon_{0}}
+    \end{equation}
+    
+    
+    \section{Methods}
+    \paragraph{}
+    Setting the signal generator to produce a high frequency square (10 kHz) wave with a very low duty cycle (0.04\%). By using a T-junction at the oscilloscope, then one end is connected to the signal generator by a short coaxial cable, the other end is connected with different coaxial cables. 50$\Omega$ impedance and 75$\Omega$ impedance coaxial cables are provided. These two coaxial cables are both 10 meter long. Another four 50$\Omega$ impedance with 1 meter long coaxial cables are provided as well.
+    \paragraph{}
+    By several arrangements, those coaxial cables can be connected in series, and obtain different lengths of coaxial cables. In our Scenario group, we chose 50$\Omega$ with 10 meter long cable, and then using different arrangements, we investigated the coaxial cable from 5 meter to 10 meter, increased one meter long each step. Recording the data sheet and capturing the plots from the oscilloscope.  By using these results, the phase velocity can be found by the distance of pulse propagation inside the coaxial cable divided by the time delay.
+    \paragraph{}
+    Meanwhile, the error during this experiment must be taken into consideration. Since the length of coaxial cables changed each step, in order to obtain an accurate value of coaxial cables' length, we must measure the actual value of cable length, and compare it with the nominal values. Thus, the error of length can be calculated. Later, the error for the phase velocity can be obtained as well. Eventually, measurements for the phase velocity can be substituted into Equation (2.7), and the required dielectric constant can be founded.
+    
+   
+    \section{Results}
+    \paragraph{}
+    Before plotting the graph, the actual values for coaxial cable is measured. They are 5.22m, 6.38m, 7.08m, 8.18m, 9.05m, and 9.93m respectively. From 5 meter to 10 meter, there are six arrangements. By collecting data from the oscilloscope, graphs can be plotted by MATLAB. Choosing three representative graphs (5m, 8m, and 10m). 
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{plot1.jpg}
+    \caption{50ohm with 5 meter long coaxial cable}
+    \end{figure}
+    Figure 1 shows the graph for 5 meter long coaxial cable. The actual value for the cable is 5.22m. Since the pulse travels double distance inside the cable, the total distance is 10.44m. In order to get the time delay, choosing the two points in phase and reading the related time. In this case, $5.94 \times 10^{-8}s$ and $6 \times 10^{-9}s$ are chosen. The phase velocity can be calculated:
+    \begin{equation}
+        v=\frac{10.44m}{5.94 \times 10^{-8}s - 6 \times 10^{-9}s}
+    \end{equation}
+    The phase velocity is equal to $1.96 \times 10^{8}m/s$
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{plot2.jpg}
+    \caption{50ohm with 8 meter long coaxial cable}
+    \end{figure}
+    Figure 2 demonstrates the graph for 8 meter coaxial cable. Using the same method, the phase velocity can be found:
+     \begin{equation}
+        v=\frac{8.18m\times2}{9.28 \times 10^{-8}s - 7 \times 10^{-9}s}
+    \end{equation}
+    The phase velocity is $1.91 \times 10^{8}m/s$
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{plot3.jpg}
+    \caption{50ohm with 10 meter long coaxial cable}
+    \end{figure}
+    Similarly, 
+    \begin{equation}
+        v=\frac{9.93m\times2}{1.096 \times 10^{-7}s - 6.6 \times 10^{-9}s}=1.93 \times 10^{8}m/s
+    \end{equation}
+    \paragraph{}
+    From these three representative graphs, the final value for phase velocity is quite similar. Then, calculating the remaining three situations, and investigating the relationship between phase velocity and length of cable. The relationship graph can be plotted below:
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{plot4.jpg}
+    \caption{Relationship Between Phase Velocity and Length of Cable}
+    \end{figure}
+    From Figure 4, all six arrangements have similar phase velocity the mean value for phase velocity is $1.94\times10^{8}m/s$. Thus, by Equation (2.7), the dielectric value is:
+     \begin{equation}
+        \varepsilon_{r}=\frac{1}{v^2\mu_{0}\mu_{r}\varepsilon_{0}}=\frac{1}{(1.94\times10^{8}m/s)^2\times1.257\times10^{-6}\ H/m\times8.854 \times 10^{-12} \ C/V m}
+    \end{equation}
+    \begin{equation}
+        \varepsilon_{r}=2.36
+    \end{equation}
+    Eventually, the dielectric constant is equal to $2.36$.
+
+    
+    \section{Analysis}
+    \paragraph{}
+    From Figure 1, 2, and 3, the gap between two pulses are getting larger. With the increase in length, the reflected pulse have more distance to propagate, thus the incident and reflected pulse can be separated clearly. By measuring the real length of cables, the actual values are not exact same as their nominal values. This would be a error to the final results. The error for each situation is 4.4\%, 6.3\%, 1.1\%, 2.3\%, 0.1\%, and 0.1\% respectively. From Equation (4.12), the dielectric constant is 2.36. By this property, material for dielectric insulator might be polypropylene\cite{3}.
+    
+    
+    
+    
+    
+    
+    
+    \section{Conclusion}
+    \paragraph{}
+    In this experiment, the phase velocity is unchanged when length of cables varies (from 5m to 10m). Thus, the dielectric constant remains unchanged no matter how long the length is. After calculation, the dielectric constant for provided coaxial cable is around 2.36, which is within the range of polypropylene's value. 
+    \paragraph{}
+    Due to the low loss and high efficiency, coaxial cables are massively used in a long distance data transmission. The unique design of coaxial cables also brings some drawbacks, it occupies large space in transmission line pipes. Also, it is heavy, hard, and difficult to fold. The cost of coaxial cable production is relatively expensive as well.   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    \newpage   
+    \begin{thebibliography}{}
+    \bibitem{1}
+    En.wikipedia.org. (2020). Coaxial cable. [online] Available at: https://en.wikipedia.org/wiki/Coaxial\_cable\#Applications
+    
+    \bibitem{2}
+    Anon, (2020). [online] Available at: https://courses.physics.illinois.edu/phys401 [Accessed 19 Jan. 2020].
+    
+    \bibitem{3}
+    En.wikipedia.org. (2020). Relative permittivity. [online] Available at: https://en.wikipedia.org/wiki/Relative\_permittivity\#Terminology [Accessed 20 Jan. 2020].
+      
+      
+    \end{thebibliography}
+    
+\end{document}
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

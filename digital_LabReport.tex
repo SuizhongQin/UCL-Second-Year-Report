@@ -1,0 +1,165 @@
+\documentclass[12pt]{article}
+\usepackage[margin= 1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage[justification=centering]{caption}
+\usepackage[nottoc]{tocbibind}
+\usepackage{fancyhdr}
+\usepackage{wrapfig}
+\usepackage{hyphenat}
+\usepackage{textcomp}
+\lfoot{}%footer
+\cfoot{}
+\rfoot{}
+\makeatletter % `@' now normal "letter"
+\makeatother  % `@' is restored as "non-letter"
+\renewcommand\theequation{\oldstylenums{\thesection}%
+                   .\oldstylenums{\arabic{equation}}}
+
+%title
+\title{ELEC0010 \\Digital Design\\Performance of Combinational Logic on FPGAs\\Lab Report}
+\author{Suizhong Qin \\Student ID: 17018962 \\\\ Department: Electronic and Electrical Engineering \\ University College London}
+
+\begin{document}
+    %cover page
+    \begin{figure}[t] %htbp
+    \centering
+    \includegraphics[width=0.8\textwidth]{ucl_logo.png}
+    \end{figure}
+    \maketitle
+    \thispagestyle{empty}
+    
+
+    %contents page
+    \newpage
+    \tableofcontents
+    \thispagestyle{empty}
+    \setcounter{page}{0}
+    
+    %start of the main document
+    \newpage
+    \pagestyle{plain}
+    \section{Abstract}
+    \paragraph{}
+    This laboratory aims to investigate the performance of combinational logic on FPGAs. The whole lab divides into two major parts, ring oscillator measurements and the effect of temperature on digital system performance. By adding a different number of inverters to the digital system, the combinational logic delay can be found by the ring oscillator's period. Then, the different number of heaters are added to the circuit to explore how the temperature will affect the delay. Through this lab, the results show that  combinational logic delay will rise when the temperature increases or the number of inverters increases.
+    
+    \section{Introduction}
+    \paragraph{}
+    Along with the development of digital system design, digital circuits can implement on many platforms, such as Field Programmable Gate Arrays(FPGA), Custom Application Specific Integrated Circuit(ASIC), and Microcontroller. To be more specific, digital circuits are composed by combinational logic; it is a type of digital logic which is performed by Boolean Algebra\cite{1}. The output of the combinational logic is a pure logical function of the input\cite{2}. When the inputs and outputs are represented by set $I_{t}$ and set $Z_{t}$ respectively, where $t$ is the time. The relationship between them is shown below:
+    \begin{equation}
+        Z_{t}=f(I_{t})
+    \end{equation}
+    To implement the combinational logic on an FPGA board, the logic circuit must meet requirements and finish the hierarchical design. Then, edit schematics or hardware description languages(HDL). Simulate and synthesis by Quartus Prime. After technology mapping, layout and static timing analysis, the combinational logic can be implemented by the FPGA. There are several LEDs and switches on the FPGA board. Light on and off represent 1 and 0 ,respectively. Switch on and off represent 1 and 0 as well.
+    In real combinational logic circuits, signal propagation delays are inevitable. Since electrons travel about 8$cm$ in nanosecond inside the conductor\cite{3}. Therefore, a time delay occurs when electrons flow in the logic circuit. Other factors, such as conductors' properties, the voltage applied, and temperature can also affect the combinational logic delay. The ring oscillator is introduced to measure the logic delay in this lab. From Figure 1 it demonstrates the layout of a three inverters ring oscillator. A typical ring oscillator usually contains an odd number of inverters; thus, the final output is logic NOT of the first input. There is a time delay for the final output, and the feedback flows back to the input, this will cause an oscillation eventually. The oscillation period for the ring oscillator is:
+    \begin{equation}
+        T=2N\times(\frac{t_{rise}+t_{fall}}{2})
+    \end{equation}
+    The $N$ is the number of inverters, $t_{rise}$ and $t_{fall}$ are propagation delays. Therefore, the combinational logic delay can be evaluate by this formula.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{1.png}
+    \caption{Layout of a Three Inverters Ring Oscillator}
+    \end{figure}
+    
+    \paragraph{}
+    In this laboratory, the whole project is built by SystemVerilog, and we are aimed to understand how the combinational logic is implemented on FPGAs. We mainly focus on FPGA's performance by evaluating its combinational logic delay. Then, compare the obtained value with the ASIC's calculated value. Finally, investigate how the temperature results in different performances for FPGAs. 
+    
+    
+    
+    \section{Methodology}
+    \paragraph{}
+    Look-up tables(LUT) is used by combinational logic in FPGAs. Each LUT block stores the desired output for its input signal. Connecting one inverter per LUT, the combinational logic delay can be measured by calculating the ring oscillator's oscillating period. Hence, the LUT average delay can be obtained. In the real situation, it is essential to set an initial value to the inverter's input. The enable is introduced, which is the AND gate of the feedback of the ring oscillator and an external enable value.
+    
+    \paragraph{}
+    To obtain the combinational logic delay, several different inverters ring oscillator must be added. In this task, we choose 201, 301, 401, and 501 inverters respectively to investigate how different number of inverters will affect the delay. In order to choose the required inverters number, a 4:1 multiplexer is added. Therefore, from Table 1, we can choose the required ring oscillator by changing states of two input switches.
+    \begin{table}[H]
+    \centering
+    \caption{The Corresponding Switch States to the Number of  Inverters}
+    \label{tab:my-table}
+    \begin{tabular}{c c c}
+    \hline
+    Switch 1 & Switch 2 & Number of Inverters \\
+    \hline
+    0        & 0        & 201                 \\
+    0        & 1        & 301                 \\
+    1        & 0        & 401                 \\
+    1        & 1        & 501                
+    \end{tabular}
+    \end{table}
+    For the software preparation, download the lab files and configure the correct environment on Quartus Prime. Open the \textit{ring\_osc\_top.sv} file. One 201 inverters ring oscillator have been provided, then instantiating the other three inverters, 301, 401, and 501 respectively. Connecting them to the other bits of m, m[1], m[2], and m[3] respectively. After clicking 'Analysis and Synthesis', check elements whether are correct. Use pin planner to assign each element to FPGA pin number. The final schematic diagram is shown on Figure 2.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{2.jpg}
+    \caption{Schematic Diagram of Ring Oscillator Circuit}
+    \end{figure}
+    The FPGA board we used is DE2-115. Connect it to the PC by using a USB cable. Set up the environment and add the edited file \textit{ring\_osc\_top.sof} into the 'output\_files' folder. By changing the DIP switch, the number of inverters varies from 201 to 501. Record the oscillation time and plot the oscillation period against the number of inverters.
+    \paragraph{}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{3.jpg}
+    \caption{Diagram of a Single Heat Generator}
+    \end{figure}
+    The temperature can affect the combinational logic delay as well. The carrier mobility and the saturation current will both decrease as the temperature rises\cite{4}. To investigate this property, the whole circuit does not need to change. Uncomment the last block of \textit{ring\_osc\_top.sv} file, thus these elements are connected to the whole circuit. Repeat the same procedure, and record the number of combinational logic elements eventually. For the hardware part, the key point is to activate two heat components to the 201 inverters' circuit. Then increasing heaters to 4, 6, 8, and 10 respectively. The single heat generator is shown on Figure 3. Repeat the same process, record the combinational logic delay for 301, 401, and 501 inverters circuits.
+    
+    \section{Results}
+    \paragraph{}
+    For the first task, the total number of combinational logic elements are 1806.Use the data collected to plot the oscillation period against number of inverters. The plotted graph is shown on Figure 4.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{4.jpg}
+    \caption{Oscillation Period versus Number of Inverters}
+    \end{figure}
+    From this graph, the equation for the best-fit line of the measured data is about $y=0.56x-1.3$. Therefore, the gradient of the line is 0.56 and the intercept is -1.3. In other words, the gradient of this line is $\frac{Oscillation Period}{N}$, and substitute this into the Equation(2.2), we can know that $gradient=t_{rise}+t_{fall}=0.56ns$. Thus, the delay of a single inverter is about $0.56ns$.
+    \paragraph{}
+    For the second part of the task, the total combinational elements is 49356/114480, which is 43\%. Figure 5 shows the graph oscillation period versus number of inverters with different number of heaters.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{5.jpg}
+    \caption{Oscillation Period versus Number of Inverters with Different Number of Heaters}
+    \end{figure}
+    The equations for lines are about $y=0.55x+3$, $y=0.56x+3.1$, $y=0.57x+3.2$, $y=0.58x+3.2$, $y=0.58x+3.4$, $y=0.59x+2.8$ for 0, 2, 4, 6, 8, and 10 heaters respectively. Therefore, the gradients are 0.55, 0.56, o.57, 0.58, 0.58, and 0.59 respectively. Use the same method from the Equation(2.2). A graph of LUT delay against number of heaters can be plotted.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{6.jpg}
+    \caption{LUT Delay versus Number of Heaters}
+    \end{figure}
+    
+    
+    \section{Discussion}
+    \paragraph{}
+    In this experiment we use 201, 301, 401, and 501 number of inverters to the circuits. By observation in Figure 4, the oscillation period is between 100 and 120ns, which is small. If we choose a smaller number of inverters, it is hard to read the data from the oscilloscope accurately. A large number of inverters helps to make it easier to observe. When we compare the data obtained by our group with the data from other groups. The gradient is slightly different, which means the inverter delay is different as well. This may be caused by different FPGA boards and data measuring time. New FPGA board will have a higher speed and low delay time. For the oscillation period, it varies continuously, thus different groups may have different readings.
+    \paragraph{}
+    As for the intercept with y-axis; it means when the number of inverters is zero, the value for the oscillation period is the intercept with y-axis. From Figure 4 and 5, the intercept with y-axis for all lines are tend to be zero. This makes sense, since when there is no inverter, the oscillation period is zero.
+    \paragraph{}
+    From Figure 5 and 6, we can observe that circuit with higher number of heaters will have more oscillation time, which means LUT delays will rise as the number of heaters increases. Therefore, when design a complex digital system, we must consider its LUT delay. Since a complex digital circuit have more elements, the operation of them will generate a lot of heat and increase the LUT delay.
+    
+    
+    \section{Conclusion}
+    \paragraph{}
+    In this lab, we use ring oscillators with different inverters to investigate the oscillation period, and evaluate the LUT delay by the ring oscillator period. By calculation and plotted graphs, we found that the LUT delay will increase as the number of inverters rises. To find out other factors that can influence the delay, we added several heat elements. The final result shows that the LUT delay will increase with more heaters.
+    
+    
+    
+    
+    
+    
+    \newpage   
+    \begin{thebibliography}{}
+    \bibitem{1}
+     En.wikipedia.org. 2020. Combinational Logic. [online] Available at: https://en.wikipedia.org/wiki/Combinational\_logic
+    \bibitem{2}
+    2018. Lecture Notes. [ebook] Available at: https://moodle-snapshot.ucl.ac.uk/18-19.
+    \bibitem{3}
+    Learn.digilentinc.com. 2020. Learn.Digilentinc | Delay Of Combinational Circuits. [online] Available at: <https://learn.digilentinc.com/Documents/276> [Accessed 30 March 2020].
+    \bibitem{4}
+    2020. [ebook] UCL. Available at: https://moodle.ucl.ac.uk/pluginfile.php/433589/mod\_resource/content/3/ELEC0010\_Lab\_Digital\_Design.pdf [Accessed 30 March 2020].
+    \end{thebibliography}
+    
+    
+    
+
+
+\end{document}

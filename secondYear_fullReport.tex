@@ -1,0 +1,556 @@
+\documentclass[12pt]{article}
+\usepackage[margin= 1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage[justification=centering]{caption}
+\usepackage[nottoc]{tocbibind}
+\usepackage{fancyhdr}
+\usepackage{wrapfig}
+\usepackage{hyphenat}
+\lfoot{}%footer
+\cfoot{}
+\rfoot{}
+\makeatletter % `@' now normal "letter"
+\makeatother  % `@' is restored as "non-letter"
+\renewcommand\theequation{\oldstylenums{\thesection}%
+                   .\oldstylenums{\arabic{equation}}}
+%title
+\title{ELEC0020 \\Communication Systems Laboratory \\Full Report}
+\author{Suizhong Qin \\Student ID: 17018962 \\ \\Lab Partner: Lorenzo Bonito\\Module Tutor: Dr  Domaniç Lavery \\ \\ Department: Electronic and Electrical Engineering \\ University College London}
+
+\begin{document}
+    %cover page
+    \begin{figure}[t] %htbp
+    \centering
+    \includegraphics[width=0.8\textwidth]{ucl_logo.png}
+    \end{figure}
+    \maketitle
+    \thispagestyle{empty}
+
+    %abstract
+    \newpage
+    \pagestyle{empty}
+    \begin{abstract}
+    This full laboratory report is about the implementation of each block for the AWGN model communication system. The first main part is to list all theories occurred in this lab session. Then, by designing algorithms for map, modulate, demodulate, and demap functions, a whole communication system can be simulated on MATLAB. The definitions and applications for each signalling schemes (binary unipolar, binary polar, and Quaternary) are introduced. At the end of this report, there is a comparison for each scheme and the results shows on several constellation diagrams.
+        
+    \end{abstract}
+    
+ 
+    %contents page
+    \newpage
+    \tableofcontents
+    \thispagestyle{empty}
+    \setcounter{page}{0}
+    
+    %start of the main document
+    \newpage
+    \pagestyle{plain}
+    \section{Introduction}
+    \paragraph{}
+    Along with the development of modern communication systems, this technology allows communication more efficient and convenient than before. Starting from the first telephone invented by Alexander Graham Bell in the 1870s, human could communicate with others instantly without face to face. Later, communication technology has many aspects of applications in almost every industry, such as mobile communication, telecommunication, and the internet of things (IOT). 
+    
+    \paragraph{}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{1.png}
+    \caption{The General Form of a Digital Communication System}
+    \end{figure}
+    In order to investigate the operating principle of communication systems, a very generic diagram is shown in Figure 1. There are three main elements contained in this system: Transmitter, Channel, and Receiver, which the Transmitter is a Digital Transmitter, the Channel is the AWGN Channel Model, and the Receiver is a Digital Receiver. In this laboratory session, it is mainly focus on the Digital Communication System. The original digital signal flows into the Digital Transmitter. During this stage, the signal will be mapped from bits into symbols and modulated. Then, the processed signal will pass through the AWGN Channel. Finally, the output from the AWGN Channel will flow into the Digital Receiver, and the output signal is demapped and demodulated in the Receiver.
+    
+    \paragraph{}
+    After depicting the general whole procedure of a Digital Communication System, we are expected to investigate and construct each section of the system. The work should be represented by Simulating on MATLAB, and a general Digital Communication System MATLAB file is provided. Therefore, mapper, modulator, demapper, and demodulator must be implemented on MATLAB by own algorithms. Then, different signalling schemes, Binary Unipolar Scheme, Binary Polar Scheme, and Quaternary Scheme, should be simulated respectively as well. By observing each output and behaviour, and comparing their results. Finally, a conclusion could be drawn to illustrate how each signalling scheme could affect final results.
+    
+    \paragraph{}
+    This Laboratory Session is conducted by Suizhong Qin and Lorenzo Bonito, who are the Second Year University College London EEE students, in the Roberts Building Room 610 Teaching Lab Room on 11th November 2019. Later, I will discuss the theory of the whole system and each part contained inside of it. After that, detailed lab tasks procedures and results will be described. By discussing results, a conclusion will be drawn eventually.
+    
+    
+    \section{Theory}
+    \paragraph{}
+    This is section is to explain the definition, basic theory, and operating principle of each components of the Digital Communication System. It would be helpful to gain a better understanding for other readers before starting laboratory works.
+    \subsection{Block Diagram of Communication System}
+    \paragraph{}
+    As shown in Figure 1, it demonstrates a Digital Communication System, which the Channel is the AWGN Channel Model (This Channel Model will be explained latter). Generally, a Communication System contains three main blocks.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{2.jpg}
+    \caption{The Block Diagram of a General Communication System}
+    \end{figure}
+    From Figure 2, three main blocks are stated, Transmitter, Channel, and Receiver. The input signal flows into the Transmitter, it comprises a mapper and a modulator in this case. The processed input signal needs to be transmitted to the Receiver by a medium, this medium could be the physical form (e.g. wire) or the logical connection (e.g. computer networking and radio)\cite{1}. By those channels, the Receiver is able to receive processed signal. There are demapper and demodulator in a Receiver. After the final processing procedures, the Receiver outputs desired signals.   
+    
+    \subsection{Mapper and Modulator}
+    \paragraph{}
+    
+    Mapper and Modulator are important functions inside the Transmitter section. The schematic diagram is shown on Figure 3. Since this laboratory session is discussing the Digital Communication System. The input signal of Transmitter is the binary form. When the binary input signal passes through mapper, it will transfer a bit stream onto a symbol stream. There are several different mapping schemes, which lead to different mapping results as well. Then, the symbol stream flows into modulator, and it will be converted into digital signal. Finally, this digital signal is ready to be conveyed by the Channel.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{3.jpg}
+    \caption{Operation of Digital Transmitter}
+    \end{figure}
+    
+    
+    
+    
+    
+    \subsection{AWGN Channel Model}
+    \paragraph{}
+    The AWGN Channel stands for Additive white Gaussian noise Channel, which is a noise model. This type of channel can be used to simulate random procedures occurred in nature. The 'additive' means the noise is added into the system, the 'white' means that it has uniform power across the frequency band in the system. In visible light spectrum, the white light can absorb and reflect any colours uniformly. Therefore the uniform power refers to white colour. The term 'Gaussian' means that this channel satisfies the Normal Distribution for time domain. The average value for time is zero as well\cite{2}. 
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{4.jpg}
+    \caption{AWGN Channel Model}
+    \end{figure}
+    
+    
+    
+    
+    
+    \subsection{Demapper and Demodulator}
+    \paragraph{}
+    Demapper and Demodulator are main functions inside the Receiver of the whole system. The schematic diagram is shown on Figure 5. The Receiver is followed by the Channel. After the digital signal is conveyed by Channel, it eventually arrives at the Receiver. Firstly, the digital signal will pass through a Demodulator. The digital signal is converted onto a stream of symbols. For the last step, a stream of symbols is converted onto a stream of bits. This is the output of the system. Therefore, the whole operating procedures of a digital communication system is done.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{5.jpg}
+    \caption{Operation of Digital Receiver}
+    \end{figure}
+    
+    
+    
+    \subsection{Symbols and Bits}
+    \paragraph{}
+    The symbols in a digital communications system are made from bits. A stream of symbols can be generated by mapping a stream of bits. It can be produced by digital signal passing through a demodulator as well. Symbols are the modulated bits, thus different mapping schemes will lead to different symbols for same bits. Then, the symbol rate is introduced. The definition of symbol rate is the number of symbols transmitted  per unit of time. The equation below shows how to calculate the symbol rate\cite{3}.
+    \begin{equation}
+        R_s=\frac{1}{T_s}
+    \end{equation}
+     Where the $R_s$ is the symbol rate, and $T_s$ is the symbol interval, which is the duration of a symbol. The unit for symbol rate is Baud (Bd).
+    
+    \paragraph{}
+    As for Bits, they are the input of the Transmitter. The Bit exists in binary form, this means that bits can only be zero or one. Bits are compositions of symbols, and they are unprocessed pulses. The bit rate is introduces as well. The definition of bit rate is the number of bits transmitted per unit of time. The equation below show how to get the bit rate:
+    \begin{equation}
+        R_b=\frac{1}{T_b}
+    \end{equation}
+    Where the $R_b$ is the bit rate, and $T_b$ is the bit interval, which is the duration of a bit.
+    \begin{equation}
+        R_b=\log_2M\times R_s
+    \end{equation}
+    \begin{equation}
+        T_b=\frac{T_s}{\log_2M}
+    \end{equation}
+    The equations (2.3) and (2.4) shows the relationships between
+    $R_s$,$T_s$,$R_b$, and $T_b$. 
+    \paragraph{}
+    Talking about the average energy per symbol, the equation is:
+    \begin{equation}
+        \xi_s=T_sP=\frac{R}{R_s} =E\left \{ X_k^2 \right \}
+    \end{equation}
+    The equation for average energy per bit is:
+    \begin{equation}
+        \xi_b=T_bP=\frac{P}{R_b}=\frac{1}{\log_2M}E\left \{ X_k^2 \right \}
+    \end{equation}
+    
+    \subsection{Symbol Alphabets and Mapping Schemes}
+    \paragraph{}
+    The general Symbol Alphabet is $A=\left \{ A_1,A_2,A_3,...,A_M\right \}$ with cardinality $M$, where each alphabet represents a specific amplitude level\cite{4}. When the alphabet is $A=\left \{A_1,A_2  \right \}$, where the $M$ is equal to 2, and $A_1,A_2$ are specific amplitude levels. Under this situation, Binary Transmission Schemes can be implemented. The amplitude levels are required to be bit zero or bit one. There are two binary transmission types are available. One is Binary Unipolar Scheme, the other one is Binary Polar Scheme. As for the Binary Unipolar Scheme, the alphabet is $A=\left \{0,1  \right \}$, the alphabet for Binary Polar Scheme is $A=\left \{-1,1  \right \}$.
+    
+    \paragraph{}
+    Considering the average energy associated with the Binary Polar and Unipolar Schemes. As for the Binary Unipolar Scheme, supposing the symbols $A_1$ and $A_2$ equal to $0$ and $ A$ respectively, where the $A$ is a specific amplitude level. The average energy equation is given by:
+    \begin{equation}
+        \xi _s=\xi_b=\frac{A^2}{2}
+    \end{equation}
+    For the Binary Polar Scheme, supposing the symbols $A_1$ and $A_2$ equal to $-A$ and $ A$ respectively,where the $A$ is a specific amplitude level. The average energy equation is given by:
+    \begin{equation}
+        \xi _s=\xi_b=A^2
+    \end{equation}
+    
+    \paragraph{}
+    For the situation like when $M>2$, a M-ary Transmission Shecheme is introduced. Now, the alphabet is $A=\left \{A_1,A_2,...,A_M  \right \}$, where the $M>2$. To obtain choices for amplitudes, the equations are provided below:
+    \begin{equation}
+        A_m=(2m-1-M)A, m=1,2,...,M
+    \end{equation}
+    By this method, the symbols (amplitudes) can be easily obtained. Considering the average energy per symbol, the equation is:
+    \begin{equation}
+        \xi_s=\frac{m^2-1}{3}A^2
+    \end{equation}
+    The equation for energy per bit is:
+    \begin{equation}
+        \xi_b=\frac{M^2-1}{3\log_2M}A^2
+    \end{equation}
+    Quaternary Scheme is an example of the M-ary transmission scheme. M is equal to 4 under this situation. By using the equation (2.9),the alphabet can be easily obtained, which is $A=\left \{-3,-1,1,3  \right \}$. Figure 6 shows three different mapping schemes.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{6.jpg}
+    \caption{Three Different Mapping Schemes}
+    \end{figure}
+    
+
+    \subsection{Constellation Diagram}
+    \paragraph{}
+    A Constellation Diagram shows all symbols in Communication Systems
+    associated with a mapping scheme\cite{5}. It is a way to visualise different transmission schemes onto diagrams. When a point is far away from the origin point, its energy is greater than the point near the origin. Considering the distance between two adjacent points, the stability will increase as the distance decreases.
+    \begin{figure}[htbp]
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=2.2in, height=0.8in]{7.jpg}
+    \caption{$M=2$, Binary Unipolar Scheme}
+    \label{fig:side:a}
+    \end{minipage}
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=2.15in, height=0.8in]{8.jpg}
+    \caption{$M=2$, Binary Polar Scheme}
+    \end{minipage}
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=2.3in, height=0.8in]{9.jpg}
+    \caption{$M=4$, M-ary Scheme}
+    \label{}
+    \end{minipage}
+    \end{figure}
+    
+    
+    
+    
+    
+    \subsection{Bit Error Probability}
+    \paragraph{}
+    Firstly, the bit error rate (BER) is the number of bit errors per unit time. Usually, it is a measurement to measure the stability and performance of a system. The term bit error ratio is the number of bit errors divided by total number of bits in a time interval. The ratio can be treated as a expectation of Bit Error Probability\cite{6}. This type of method will be suitable for a long time interval, since it can provide an accurate values. 
+    
+    
+    
+    
+    \subsection{Normalised Signal-to-Noise Ratio}
+    \paragraph{}
+    The Normalised Signal-to-Noise Ratio is referred to SNR. SNR means the average energy per unit bit divided by noise power spectral density ratio. It will be pretty helpful to compare the BER values, and investigate the performance of different digital transmission schemes\cite{7}.
+    
+    
+    
+    
+    
+    
+    \section{Tasks and Results}
+    \paragraph{}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{10.jpg}
+    \caption{Communication System Model MATLAB Implementation}
+    \end{figure}
+    As shown in Figure 10, the whole communication system model is given on the lab script. The MATLAB code represents different functions in a communication system. In line 13, the 'map' function conveys a stream of bits (tx\_bits) onto a stream of symbols (tx\_symbols). In line 15, the 'modulate' function conveys a stream of symbols (tx\_symbols) onto a digital signal (tx\_signal). In line 17, it shows the process of AWGN model and how the noise will be added to the system. In line 19, the 'demodulate' function conveys a digital signal (rx\_signal) onto a stream of symbols (rx\_symbols). In line 21, the 'demap' function conveys a stream of symbols (rx\_symbols) onto a stream of bits (rx\_bits). This lab task is to implement algorithms for map, modulate, demodulate, and demap. Finally, using three different transmission schemes (Binary Unipolar Scheme, Binary Polar Scheme, and Quaternary Scheme) to examine whether functions are working correctly. 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    \subsection{Task 1: Implementation of the Digital Transmitter}
+    \paragraph{}
+    The first task is aimed to implement a digital transmitter on MATLAB. The digital transmitter is comprised of a mapper and a modulator. We are expected to design our own MATLAB algorithms for both mapper and modulator. This task does not require any hardware, but only MATLAB. 
+    \subsubsection{Mapper}
+    \paragraph{}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{11.jpg}
+    \caption{The Mapper Algorithm}
+    \end{figure}
+    Firstly, when a signal flows into a mapper, the main function of mapper is to converts a stream of bit onto a stream of symbols. The 'map' function accepts two parameters 'tx\_bits' and 'alphabets'. Making sure the initial value for 'tx\_symbols' is zero. Using the equation to get the number of symbols:
+    \begin{equation}
+        Number of Symbols=\frac{Number of Bits}{\log_2(Number of Alphabets)}
+    \end{equation}
+    Then, using the 'reshape' function to reshape the 'tx\_bits' to a new matrix, which the size of this matrix is $\log_2$(Number of Alphabets) multiplies Number of Symbols. The following step is to map each bit onto its corresponding alphabets by a given for loop function as shown from line 8 to line 11.
+    \paragraph{}
+    In order to examine the result for this 'map' function. Three different mapping schemes are used, Binary Unipolar Scheme, Binary Polar Scheme, and Quaternary Scheme.
+    \begin{figure}[htbp]
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=1.9in, height=1.5in]{12.jpg}
+    \caption{Binary Unipolar Scheme}
+    \label{fig:side:a}
+    \end{minipage}
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=1.9in, height=1.5in]{13.jpg}
+    \caption{Binary Polar Scheme}
+    \end{minipage}
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=1.9in, height=1.5in]{14.jpg}
+    \caption{Quaternary Scheme}
+    \label{}
+    \end{minipage}
+    \end{figure}
+    From Figure 12, 13, and 14, since there many data, lines overlap together. It is hard to observe the detailed information. However, from the x-axis and y-axis, the range for Figure 12 is 0-1, Figure 13 is -1 to 1, and Figure 14 is from -3 to 3. This means the map function works correctly under three mapping schemes.
+    
+    
+    
+    
+    
+    \subsubsection{Base-band Modulator}
+    \paragraph{}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{15.jpg}
+    \caption{The Modulator Algorithm}
+    \end{figure}
+    As for the Modulator, a stream of symbols flows out from the Mapper and then flows into the Modulator. Its main function is to convert a stream of symbols onto a digital signal. In this case, the modulate function accepts three parameters, which are tx\_symbols, Ts, and nsymbols. To specific, the tx\_symbols is the output of the Mapper, Ts is the symbol time interval associated with different mapping scheme, and nsymbols are referred to the total number of symbols used in a single communication system. Then, the Tsampling is defined by global variable. Initialising the vector t from zero to nsymbols times Ts. The spacing for this data set is Tsampling. Initialising the tx\_signal with zeros. Since the length of vector t is same as the length of tx\_signal. Then, using the following for loop to modulate the symbols onto the digital signal (As shown in Line 3-7).
+    \paragraph{}
+    As for the examination of this function. A same method is used to see that whether the function is working normally. The outputs are supposed to be digital waveform for binary unipolar, binary polar, and Quaternary signalling schemes.
+    \begin{figure}[htbp]
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=1.9in, height=1.5in]{16.jpg}
+    \caption{Binary Unipolar Scheme}
+    \label{fig:side:a}
+    \end{minipage}
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=1.9in, height=1.5in]{17.jpg}
+    \caption{Binary Polar Scheme}
+    \end{minipage}
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=1.9in, height=1.5in]{18.jpg}
+    \caption{Quaternary Scheme}
+    \label{}
+    \end{minipage}
+    \end{figure}
+    As shown from Figure 16 to 18, the plots show the relationship between signal amplitude and time. Figure 16 and 17 are quite same as they have similar patterns. The amplitude range for figure 16 is 0 to 1000 and for Figure 17, its amplitude range is -1000 to 1000. It proves that the modulate function works normally under three signalling schemes.
+    
+    
+
+    
+    \subsection{Task 2: Implementation of the Digital Receiver}
+    \paragraph{}
+    The Task 2 requires us to implement the digital receiver function on MATLAB. The digital receiver are comprised of a demodulator and a demapper. Then, designing our own algorithms for both demodulator and demapper with similar methods like task one.
+    \subsubsection{Demodulator}
+    \paragraph{}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{19.jpg}
+    \caption{The Demodulate Algorithm}
+    \end{figure}
+    For the demodulator, it is the first part of the digital receiver. Through the AWGN channel, noises are added to the system. The demodulate function is aimed to convert digital waveform onto a stream of symbols. In order to implement this function, defining the demodulate function with three parameters, rx\_signal, Ts, and nsymbols respectively. Then, defining Tsampling as a global variable and vector t with values from zero to nsymbols time Ts. The spacing for this data set is Tsampling. Finally, demodulate the digital signal onto a stream of symbols by a for loop as shown in line 4-7.
+    \begin{figure}[htbp]
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=1.9in, height=1.5in]{20.jpg}
+    \caption{Binary Unipolar Scheme}
+    \label{fig:side:a}
+    \end{minipage}
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=1.9in, height=1.5in]{21.jpg}
+    \caption{Binary Polar Scheme}
+    \end{minipage}
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=1.9in, height=1.5in]{22.jpg}
+    \caption{Quaternary Scheme}
+    \label{}
+    \end{minipage}
+    \end{figure}
+    As shown in Figure 20, most symbols are in the range of zero to one, due to the added noise, some of symbols are outside of this range. Comparing withe Figure 16 (without noise), they have similar patterns except some outliers caused by the noise. In Figure 21, most symbols are in the range of -1 to 1. Some of symbols are outside of this range due to the noise. By comparing with Figure 13 (without any noises), they have similar patterns. Same situations for the Quaternary Scheme. Therefore, the demodulate function is working correctly.
+    
+    
+    
+    
+    \subsubsection{Demapper}
+    \paragraph{}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{23.jpg}
+    \caption{The Demap Algorithm}
+    \end{figure}
+    The demap is the second part of the digital receiver. It converts a stream of symbols onto a stream of bits. To implement this demap function, defining a demap function with two parameters rx\_symbols and alphabet. Then initialising the matrix rx\_bits with numerical zeros. In line 3-11, these codes are provided on the lab script. Finally, reshaping the matrix onto a vector, which the size is $1 \times length(rx\_bits)*log_2(Number of alphabets)$.
+    \begin{figure}[htbp]
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=1.9in, height=1.5in]{24.jpg}
+    \caption{Binary Unipolar Scheme}
+    \label{fig:side:a}
+    \end{minipage}
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=1.9in, height=1.5in]{25.jpg}
+    \caption{Binary Polar Scheme}
+    \end{minipage}
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=1.9in, height=1.5in]{26.jpg}
+    \caption{Quaternary Scheme}
+    \label{}
+    \end{minipage}
+    \end{figure}
+    As shown on figure 24-26, the y-axis range is 0-1 will is correct since bits are in binary form. It is hard to observe any differences among these three graphs, some bits are overlapped. From the x-axis, the number of bits for all three graphs are 1000, which means demap function can work under the three signalling scheme.
+    
+    
+    \subsection{Task 3: Comparison of Digital Signalling Schemes}
+    \paragraph{}
+    This task mainly focus on the three different signalling schemes' performance for the overall communication system.
+    \subsubsection{Depict the Constellation Diagram}
+    \paragraph{}
+    The constellation diagram is a way to visualise the different signalling schemes on diagrams. In this task, three signalling schemes will be used to investigate how the noise will affect each scheme. Starting from a non-noise environment, to large noise environment. Observing the patterns shown on the constellation diagrams, a conclusion can be drawn after all situations have been listed. Firstly, a non-noise environment for constellation diagrams are plotted in Figure 27, 28, and 29.
+    \begin{figure}[htbp]
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=2in, height=1.7in]{27.png}
+    \caption{Binary Polar Scheme}
+    \label{fig:side:a}
+    \end{minipage}
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=2in, height=1.7in]{28.png}
+    \caption{Binary Unipolar Scheme}
+    \end{minipage}
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=2in, height=1.7in]{29.png}
+    \caption{Quaternary Scheme}
+    \label{}
+    \end{minipage}
+    \end{figure}
+    From these three figures, points can be clearly distinguished. Under this non-noise environment, each diagram satisfies the alphabet of each scheme's definition. From Figure 27, $A=\left \{-1,1 \right \}$, and $A=\left \{0,1 \right \}$ for Figure 28, and $A=\left \{-3,-1,1,3  \right \}$ for Figure 29. The constellation diagrams are same for both transmitter and receiver.
+    
+    \paragraph{}
+    When a medium AWGN is added to the system, the noise will lead a different diagrams for each schemes.
+    \begin{figure}[htbp]
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=1.9in, height=1.5in]{30.png}
+    \caption{Binary Unipolar Scheme}
+    \label{fig:side:a}
+    \end{minipage}
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=1.9in, height=1.5in]{31.png}
+    \caption{Binary Polar Scheme}
+    \end{minipage}
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=1.9in, height=1.5in]{32.png}
+    \caption{Quaternary Scheme}
+    \label{}
+    \end{minipage}
+    \end{figure}
+    \paragraph{}
+    From Figure 30 to 32, the major difference from the previous occasion is that there are more point around symbols. This is caused by AWGN channel. For each schemes, real symbols have an offset of 0.5 to the nominal symbols. However, three signalling schemes can still be distinguished.
+    
+    \paragraph{}
+    When a large AWGN is added to the system, the constellation diagrams are quite different from the previous two situations. Diagrams are affected severely by the large noise.
+    \begin{figure}[htbp]
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=1.9in, height=1.5in]{33.png}
+    \caption{Binary Unipolar Scheme}
+    \label{fig:side:a}
+    \end{minipage}
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=1.9in, height=1.5in]{34.png}
+    \caption{Binary Polar Scheme}
+    \end{minipage}
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering
+    \includegraphics[width=1.9in, height=1.5in]{35.png}
+    \caption{Quaternary Scheme}
+    \label{}
+    \end{minipage}
+    \end{figure}
+    \paragraph{}
+    From Figure 33 to 35, it is quite hard to distinguish each signalling schemes by human eyes. These three diagrams are looked pretty similar. There are a large number of points overlapped together. The final results are distorted by large AWGN.
+    
+    
+    
+    
+    
+    
+    \subsubsection{Depict Bit Error Probability versus $E_b/N_0$ Curves}
+    \paragraph{}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{36.png}
+    \caption{Bit Error Probability against $E_b/N_0$}
+    \end{figure}
+    \paragraph{}
+    For the constellation diagram in the previous part, noise will affect the communication system severely when there is a large noise in the channel. It will cause a distortion for the receiver when receiving the digital signals via channels. For each signalling schemes, the noise will therefore affect their performances. In Figure 36, it shows the relationship between bit error probability and $E_b/N_0$ for three schemes (Unipolar, Polar, and Quaternary). All of these three schemes show an common trend, the bit error probability will decrease when $E_b/N_0$ deceases. Comparing these three curves, binary polar scheme have smaller bit error probability for the same value of $E_b/N_0$, and Quaternary scheme has the largest bit error probability for the same value of $E_b/N_0$. This is due to the reason that, in a binary polar scheme, distance between each alphabet is longer than the distance for the Quaternary scheme's two adjacent alphabet. 
+    
+    
+    
+    
+    
+    
+    \section{Conclusion}
+    \paragraph{}
+    Through this lab session, each block in the communication system is represented by implementing the map, modulate, demodulate, and demap functions on MATLAB. By designing our own algorithms for all functions, the AWGN channel communication system can eventually simulated on MATLAB. Then, binary unipolar scheme, binary polar scheme, and Quaternary scheme are used in each part to examine whether the function works properly. After all parts of the communication system is done, the constellation diagram is introduced to compare the performance for each digital signalling scheme. Finally, a conclusion of schemes performance can be drawn from Bit Error Probability against $E_b/N_0$ diagram.
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+     
+    \newpage   
+    \begin{thebibliography}{9}
+    \bibitem{1}
+    En.wikipedia.org. (2019). Communication channel. [online] Available at: https://en.wikipedia.org/wiki/Communication\_channel [Accessed 11 Dec. 2019].
+      
+    \bibitem{2}
+    En.wikipedia.org. (2019). Additive white Gaussian noise. [online] Available at: https://en.wikipedia.org/wiki/Additive\_white\_Gaussian\_noise [Accessed 11 Dec. 2019].
+    \bibitem{3}
+    Proakis, J. and Salehi, M. (2005). Essentials of communication systems engineering. Upper Saddle River, N.J.: Prentice Hall.
+        
+    \bibitem{4}
+    Lavery's, Domaniç.  2019.  ELEC0020 Baseband Digital Transmission. [Lecture slides] Photonics and Communications Systems.
+        
+    \bibitem{5}
+    Lavery's, Domaniç.  2019.  ELEC0020 Baseband Digital Transmission. [Lecture slides] Photonics and Communications Systems.
+    
+    
+    \bibitem{6}
+    En.wikipedia.org. (2019). Bit error rate. [online] Available at: https://en.wikipedia.org/wiki/Bit\_error\_rate [Accessed 12 Dec. 2019].
+    
+    \bibitem{7}
+    En.wikipedia.org. (2019). Eb/N0. [online] Available at: https://en.wikipedia.org/wiki/Eb/N0#Relation\_to\_Es/N0 [Accessed 12 Dec. 2019].
+        
+    \end{thebibliography}
+
+\end{document}
