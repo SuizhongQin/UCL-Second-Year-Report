@@ -1,0 +1,629 @@
+\documentclass[12pt]{article}
+\usepackage[margin= 1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage[justification=centering]{caption}
+\usepackage[nottoc]{tocbibind}
+\usepackage{fancyhdr}
+\usepackage{wrapfig}
+\usepackage{hyphenat}
+\usepackage{subfigure}
+\usepackage{textcomp}
+\usepackage{mathtools}
+\usepackage{todonotes}
+%\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode}
+\lfoot{}%footer
+\usepackage{amsmath}
+\usepackage{amssymb}
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+\cfoot{}
+\rfoot{}
+\makeatletter % `@' now normal "letter"
+\makeatother  % `@' is restored as "non-letter"
+\renewcommand\theequation{\oldstylenums{\thesection}%
+                   .\oldstylenums{\arabic{equation}}}
+
+%title
+\title{ELEC0019 \\Interference, Diffraction and Polarisation
+of Electromagnetic Waves\\Full Lab Report}
+\author{Suizhong Qin \\Student ID: 17018962 \\\\ Module Tutor: Dr Anibal Fernandez \\Department: Electronic and Electrical Engineering \\ University College London}
+
+\begin{document}
+    %cover page
+    \begin{figure}[t] %htbp
+    \centering
+    \includegraphics[width=0.8\textwidth]{ucl_logo.png}
+    \end{figure}
+    \maketitle
+    \thispagestyle{empty}
+    
+    %abstract
+    \newpage
+    \begin{abstract}
+    
+    This full lab report focuses on interference, diffraction and polarisation of electromagnetic waves. The lab experiments divide into two parts; experiments from part one investigate waves interference. The second part is about waves diffraction and polarisation.
+    
+    Use Young's double-slit model, the predicted interference graph plotted. Then, the expected value compares with real measured values. The relative permittivity of the dielectric slap is found by the shifted wave. Six normalised array factor is plotted for a two-point antenna model. Later, Fresnel diffraction is simulated on MatLab and compares it with the expected one. Eventually, two polarisers, wire grid and wire mesh confirm the waves polarisation.
+    
+    Part one contains individual experiments; part two is conducted remotely. The measurement is provided. This causes that some of the detailed information is difficult to describe.
+    
+    \end{abstract}
+    \thispagestyle{empty}
+    
+    %contents page
+    \newpage
+    \tableofcontents
+    \thispagestyle{empty}
+    \setcounter{page}{0}
+    
+    %start of the main document
+    \newpage
+    \pagestyle{plain}
+    \section{Introduction}
+    \paragraph{}
+    The electromagnetic(EM) wave is the wave that contains both the electric field and the magnetic field in perpendicular. A change in the electric field will cause a changing magnetic field and vice-versa\cite{1}. Unlike other mechanical waves, the EM wave does not require media to propagate, which means it can transmit in space. These unique properties enable the EM wave to be vastly used in many aspects of physics research and the engineering world. From the previous physics study, the electromagnetic wave has a wide range of frequencies or wavelengths. The EM radiation spreads on the EM spectrum; different frequencies result in various EM wave forms, such as gamma rays, microwaves, and X-rays. 
+    
+    \paragraph{}
+    This laboratory investigates some of EM wave's properties by two major parts, Part One is the interference of waves, and Part Two is the Diffraction and Polarisation. The first half requires to be completed before the lab, and the second half should be worked during the lab. Due to the special reason, Part Two is conducted remotely.
+    
+    
+    
+    
+    
+    \section{Part One: Interference of Waves}
+    \paragraph{}
+    From the previous study, wave interference is defined as two waves superpose to form a resultant wave\cite{2}. The new resultant wave will have lower, same, or higher wave amplitude. When two in-phase coherent waves superpose, the resultant amplitude is the sum of two original waves' amplitude, which the constructive interference occurred. When two out-of-phase coherent waves superpose, the resultant amplitude cancels out and equals to zero, which the destructive interference occurred. These two particular examples are two important wave interference phenomenons.
+    
+    \paragraph{}
+    In Part One, Young's double-slit experiment is introduced to investigate the interference phenomenon. This experiment chooses microwaves as a light source. Since the microwave has a  greater wavelength, and it is easy to observe images after two holes.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{1.jpg}
+    \caption{Model of Young's Double-slit Experiment\cite{3}}
+    \end{figure}
+    In Figure 1, it shows the model of the Young's double-slit experiment, and it is a perfect model to observe the constructive and destructive interference. $S_{1}$ and $S_{2}$ are two microwave emitting sources with the same amplitude and phase. $\ell_{1}$ and $\ell_{2}$ are distances from $S_{1}$ and $S_{2}$ to an arbitrary point on the $x$-axis. These are defined as path lengths. When length path $\ell_{1}-\ell_{2}=n\lambda$, where $n$ is an integer. Under this situation, constructive interference occurred. When $\ell_{1}-\ell_{2}=n\lambda+\frac{\lambda}{2}$, where $n$ is an integer, which is destructive interference. 
+    
+    \subsection{Question 1}
+    \paragraph{}
+    From the lab script\cite{3}, the deduced equation:
+    \begin{equation}
+                    E_T \approx \frac{1}{D} \left( e^{-jk[(d/2 - x) \sin{\theta_1}+D \cos{\theta_1}]} + e^{-jk[ (d/2 + x) \sin{\theta_2}+D \cos{\theta_2}]} \right)
+    \end{equation}
+    Since both  $\theta_1$ and $\theta_2$ are small, we can approximate that\cite{3}:
+    \begin{align}
+                    &\sin{\theta_1}\approx\theta_1 \approx \frac{d / 2 - x}{D} \\
+                    &\sin{\theta_2}\approx\theta_2 \approx \frac{d / 2 + x}{D} \\
+                    &\cos{\theta_1} \approx 1 - \frac{{\theta_1} ^2}{2} \\
+                    &\cos{\theta_2} \approx 1 - \frac{{\theta_2} ^2}{2}
+                \end{align}
+    Substitute Equation (2.2), (2.3), (2.4), and (2.5) into the Equation (2.1), we can get:
+    \begin{align*}
+                    E_T &\approx \frac{1}{D} \left( e^{-jk[\frac{(d/2 - x) ^ 2}{D} + D - \frac{(d/2 - x) ^ 2}{2D}]} + e^{-jk[\frac{(d/2 - x) ^ 2}{D} + D - \frac{(d/2 - x) ^ 2}{2D}]} \right) \\
+                    &\approx \frac{1}{D} \left( e^{-jk[\frac{d^2 / 4 + x^2 + 2D^2 - xd}{2D}]} + e^{-jk[\frac{d^2 / 4 + x^2 + 2D^2 + xd}{2D}]} \right) \\
+                    &\approx \frac{1}{D} \left( \cos\left({-k\cdot\frac{d^2 / 4 + x^2 + 2D^2 - xd}{2D}}\right) + j\sin\left({-k\cdot\frac{d^2 / 4 + x^2 + 2D^2 - xd}{2D}}\right) \right) \\&\ \  +\frac{1}{D} \left( \cos\left({-k\cdot\frac{d^2 / 4 + x^2 + 2D^2 + xd}{2D}}\right) + j\sin\left({-k\cdot\frac{d^2 / 4 + x^2 + 2D^2 + xd}{2D}}\right) \right) \\
+                    &\approx \frac{2}{D} \left( \cos\frac{k(d^2/2 + 2x^2 + 4D^2)}{2D} \cdot \cos (\frac{kdx}{2D}) - j\sin\frac{k(d^2/2 + 2x^2 + 4D^2)}{2D} \cdot \cos (\frac{kdx}{2D}) \right)\\
+                    &\approx \frac{2}{D}\cos (\frac{kdx}{2D}) \left( \cos\frac{k(d^2/2 + 2x^2 + 4D^2)}{2D} - j\sin\frac{k(d^2/2 + 2x^2 + 4D^2)}{2D}  \right)
+                \end{align*}
+    Then $|E_T|^2$ will be:
+    \begin{align}
+                    &\approx \frac{4}{D^2} \cdot \cos^2 (\frac{kdx}{2D}) \cdot \left( \cos^2\frac{k(d^2/2 + 2x^2 + 4D^2)}{2D} + \sin^2\frac{k(d^2/2 + 2x^2 + 4D^2)}{2D} \right) \\
+                    &\approx \frac{4}{D^2} \cdot \cos^2 (\frac{kdx}{2D})
+    \end{align}
+    For the maximum value: $|E_T|^2_{max}=\frac{4}{D^2}$\\
+    For the minimum value: $|E_T|^2_{min}=-\frac{4}{D^2}$\\
+    Thus, $\cos^2 (\frac{kdx}{2D})=\pm 1$
+    \begin{align}
+    &\frac{kdx}{2D}=n\pi\\
+    &x=\frac{2Dn\pi}{kd}
+    \end{align}
+    Where $n$ is an integer, and $n=0,1,2,\cdots$\\
+    When $n=0,x=0$, and    when $n=1,x=\frac{2D\pi}{kd}$\\
+    Therefore, the distance between consecutive maxima or minima is $\frac{2D\pi}{kd}$.
+    
+    \subsection{Question 2}
+    \paragraph{}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{2.jpg}
+    \caption{Interference Pattern Graph for Approximate and Actual Equations}
+    \end{figure}
+    Figure 2 demonstrates the difference between the exact equation and the approximate equation for an interference pattern. The detailed MatLab code is attached in A.1. From the plotted graph, two curves match very well in the central part. This means that the approximate equation is more accurate when the absolute value of the distance from the screen centre tends to be zero. When it far away from the screen centre, the real situation's relative intensity falls gradually, and the distance between maxima or minima tends to increase. Since this approximate equation uses Taylor expansion, $\ell_{1}\approx\ell_{2}\approx D$, and small-angle approximation. In the real situation, $\ell_{1}\neq\ell_{2}$, and the error for $\sin{\theta}\approx\theta$ rises when the distance from the screen centre rises.
+    
+
+    \subsection{Question 3}
+    \paragraph{}
+    Before starting question 3 and 4, the setup for the interference experiment arrangement is introduced. This experimental arrangement aims to implement Young's double-slit model. To produce two in-phase and identical amplitude wave sources, a 10GHz modulated microwave with a 5KHz  square wave signal is connected to a two open-ended rectangular waveguide with same lengths by a coaxial cable. The distance $d$ between these two ends is 63cm. Then a horn receives the signal on the other side. The horizontal distance $D$ between two devices is 255cm. The horn moves along the x-axis, as stated in Figure 1, and keeps unchanged along the y-axis. A microwave detector follows the horn. The signal detected flows through a diode, amplifier, and finally to the meter.
+    
+    \paragraph{}
+    As for the function of the detector diode, it only allows the positive part of the signal passes through the diode, and the negative part of the wave is removed. Then, a low-pass filter is followed by the diode. Hence, the frequency of the signal carried before the meter is 5kHz. The magnitude of the current coming from the detector is proportional to the electric field received by the horn. Since the current through the diode is proportional to the squared voltage across the diode, $I\propto V^2$. The voltage is proportional to $E_T$ as well, $V\propto E_T$. Therefore, $I\propto |E_T|^2$.
+
+    
+    
+    \subsection{Question 4}
+    \paragraph{}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{3.jpg}
+    \caption{Interference Pattern Graph for Experiment 1.1}
+    \end{figure}
+    Figure 3 shows the interference pattern for both theoretical curves and measured data. The y-axis is normalised in this graph. The measured data curve have different maxima amplitude. The amplitude decreases dramatically when the distance from the screen centre rises or falls. Some of the signals energy may dissipate during the transmission and demodulation; thus the intensity decays significantly compared with the expectation from the previous ideal model. As for the minima amplitudes; they are very closed to zero, three of them are slightly higher above zero. This phenomenon may be caused by some leaking light from the maxima point, which influences the minima point. From the graph, minima give a better a definition of position. The electric wave propagates vertically along the z-plane from the previous assumption. When the source wave propagates horizontally in the x-y plane, there will be no signal generated. Since the wave in horizontal direction will will be blocked. The intensity will decrease with a finite aperture horn receiver.
+    
+    
+    \subsection{Question 5}
+    \paragraph{}
+    Before Question 5 and 6, the setup of the experiment changes, and one dielectric sheet is interposed between one emitting source and the horn. This sheet will result in a difference in phase and cause an interference shift.
+    \paragraph{}
+    From the lab script, the $\Delta s$ is the distance shifted of the central maximum. The $\delta$ is the thickness of the dielectric sheet\cite{4}. From Figure 1, by using Pythagorean theorem:
+    \begin{align}
+    &{l_1}^2 = D^2+(\frac{d}{2}-x)^2\\
+    &{l_2}^2 = D^2+(\frac{d}{2}+x)^2\\
+    \intertext{Therefore,} &{l_2}^2-{l_1}^2=2dx\\
+    &(l_2+l_1)\times(l_2-l_1)=2dx\\
+    \intertext{When there is no dielectric sheet:}
+    &\Delta l = l_2 - l_1 = \frac{{l_2} ^2 - {l_1}^2}{l_1 + l_2}\\
+    \intertext{Assume the angle between propagation direction and the normal to the sheet is very small:}
+    &l_1\approx l_2 \approx D\\
+    &l_1 + l_2 = 2D\\
+    \intertext{Thus,} &\Delta l = \frac{2dx}{2D}= \frac{dx}{D}\\
+    \end{align}
+    The wavelength shift caused by the dielectric sheet, $\lambda _{sheet}$, where n is the refractive index of the sheet:
+    \begin{equation}
+    \lambda _{sheet}=(n-1)\delta    
+    \end{equation}
+    The new path difference is now obtained by adding this phase shift:
+    \begin{equation}
+        \Delta l_{new} = \frac{xd}{D}+(n-1)\delta
+    \end{equation}
+    The central maximum happened when $ \Delta l_{new}=0$:
+    \begin{equation}
+        0= \frac{xd}{D}+(n-1)\delta
+    \end{equation}
+    Rearrange it:
+    \begin{equation}
+        x=-\frac{(n-1)D\delta}{d}
+    \end{equation}
+    When the maximum shifts along the x-axis,
+    \begin{equation}
+        \Delta s = \frac{D\delta (n-1)}{d}
+    \end{equation}
+    Rearrange it:
+    \begin{equation}
+        n=1+\frac{\Delta s \cdot d}{D\delta}
+    \end{equation}
+    Finally, the relative permittivity of a dielectric sheet is obtained:
+    \begin{equation}
+        \varepsilon _r =n^2= \left[ 1 + \frac{\Delta s}{\delta} \frac{d}{D} \right] ^ 2
+    \end{equation}
+    
+    
+    \subsection{Question 6}
+    \paragraph{}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{4.jpg}
+    \caption{Interference Pattern Graph with a Dielectric Sheet}
+    \end{figure}
+    Figure 4 demonstrates the measured data with a dielectric sheet. The detailed MatLab code is in A.3. It is clear to observe a shift for the new measured data compared with the theoretical curve. From the graph, the new measured curve shifts to the left side, and the shift distance is about 3cm. Given that $\delta = 1.2cm, D=255cm, d=63cm$. The relative permittivity is calculated by:
+    \begin{equation}
+    \varepsilon _r = \left[ 1 + \frac{\Delta s}{\delta} \frac{d}{D} \right] ^ 2 = \left[ 1 + \frac{3}{1.2} \times \frac{63}{255} \right] ^ 2 = 2.617
+    \end{equation}
+    This experiment is not suitable for thick and high permittivity sheets. From Equation (2.23), it shows that the distance shifted of the central maximum is proportional to the thickness of the sheet, where other variables keep unchanged. This means that an increase in the sheet thickness will cause $\Delta s$ shift more significantly. When the curve shifts to the left, it will be hard to observe the central maximum value. The position of the sheet does not influence the measurement too much. The distance between the sheet and the source does not need to be 25cm. Nevertheless, the distance should not be too close or far, as the diffraction occurred under this situation, which will affect the reading on the screen.
+    
+
+    \subsection{Question 7}
+    \paragraph{}
+    Question 7 is about antenna arrays. The antenna array is a set of connected antennas, which works simultaneously\cite{5}. As shown in Figure 5, it is a two-point antenna arrays. The distance between these two points is $d$. They are excited with currents 1 and $e^{j\varphi}$, and they have same amplitude. The phase difference is $\varphi$.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{5.jpg}
+    \caption{Antenna Arrays with Two Points\cite{6}}
+    \end{figure}
+    From the equation given on the lab script:
+    \begin{align*}
+        E(r, \theta) &= \frac{e^{-jk(r + \frac{d}{2} \cos \theta)}}{r} + \frac{e^{j\varphi}e^{-jk(r - \frac{d}{2} \cos \theta)}}{r} \\
+                    E(r, \theta)&= \frac{e^{\frac{j\varphi}{2}} e^{-jkr}}{r}  \left( e^{-\frac{jkd}{2} \cos \theta - j\varphi/2} + e^{\frac{jkd}{2} \cos \theta + j\varphi/2} \right ) \\
+                    E(r, \theta)&= \frac{e^{j(\varphi/2 - kr)}}{r}  \left( e^{-\frac{j}{2} (kd\cos\theta + \varphi)} + e^{\frac{j}{2} (kd\cos\theta + \varphi)} \right ) \\
+                    E(r, \theta)&= \frac{e^{j(\varphi/2 - kr)}}{r}  \left( 2 \cos\frac{kd\cos \theta + \varphi}{2} \right) \\
+                    E(r, \theta)&= \frac{2e^{j(\varphi/2 - kr)}}{r} \cos(\frac{kd\cos \theta + \varphi}{2})\\
+                    |E(r, \theta)|^2&=\frac{4}{r^2}\cos^2 \left (\frac{kd\cos \theta + \varphi}{2} \right )\\
+                    |E(r, \theta)|&=\frac{2}{r}\cos \left (\frac{kd\cos \theta + \varphi}{2} \right )=\frac{2\cos \left (\frac{kd\cos \theta + \varphi}{2} \right )}{r}
+    \end{align*}
+    Given that the expression will be: $|E(r, \theta)| = \frac{F(\theta)}{r}$.\\
+    Therefore:
+    \begin{equation}
+        F(\theta)=2\cos \left (\frac{kd\cos \theta + \varphi}{2} \right )
+    \end{equation}
+    \paragraph{}
+    The six plotted graphs are shown in Figure 6. These graphs show the array factor as a function of $d$, $\varphi$, and $\theta$. The detailed MatLab code is attached to the A.4.
+    
+    
+    
+    \begin{figure}[H]
+                    \centering
+                    \subfigure[$d = \lambda / 2$ and $\varphi = 0$]{
+                    \begin{minipage}[H]{0.5\linewidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{6.jpg}
+                    %\caption{a}
+                    \end{minipage}%
+                    }%
+                    \subfigure[$d = \lambda / 2$ and $\varphi = 90$]{
+                    \begin{minipage}[H]{0.5\linewidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{7.jpg}
+                    %\caption{b}
+                    \end{minipage}%
+                    }%
+                    
+                    \subfigure[$d = \lambda / 2$ and $\varphi = 180$]{
+                    \begin{minipage}[H]{0.5\linewidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{8.jpg}
+                    %\caption{a}
+                    \end{minipage}%
+                    }%
+                    \subfigure[$d = \lambda / 4$ and $\varphi = 0$]{
+                    \begin{minipage}[H]{0.5\linewidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{9.jpg}
+                    %\caption{b}
+                    \end{minipage}%
+                    }%
+                    
+                    \subfigure[$d = \lambda / 4$ and $\varphi = 90$]{
+                    \begin{minipage}[H]{0.5\linewidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{10.jpg}
+                    %\caption{a}
+                    \end{minipage}%
+                    }%
+                    \subfigure[$d = \lambda / 4$ and $\varphi = 180$]{
+                    \begin{minipage}[H]{0.5\linewidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{11.jpg}
+                    %\caption{b}
+                    \end{minipage}%
+                    }%
+                    \centering
+                    \caption{Six Normalised Array Factor Graphs}
+                \end{figure}
+    
+    
+    \section{Part Two: Diffraction and Polarisation}
+    \paragraph{}
+    This part mainly focuses on diffraction and polarisation of waves. The lab script requires us to use Huygens's principle to investigate the diffraction's properties. As for the polarisation of waves. It only applies to transverse waves, since the wave's oscillation is perpendicular to its propagation direction. A longitudinal wave oscillates parallel to its propagation direction; thus, it cannot be polarised. This part of the experiment is conducted remotely, some of the data comes from UCL moodle ELEC0019 page. 
+    
+    
+    \subsection{Question 8}
+    \paragraph{}
+    Diffraction is a physics phenomenon when a wave encounter barriers or slits. After passing obstacles, the original wave will bend and continue to propagate. To investigate the diffracting wave properties, Fresnel's diffraction theory is introduced. It happened when either the distance from the source to the obstacle or the distance from the obstacle to the screen is comparable to the size of the obstacle\cite{7}. 
+    
+    \paragraph{}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{13.jpg}
+    \caption{Huygens's Principle to Visualise a Wave}
+    \end{figure}
+    Huygens's principle illustrates the wave diffraction. It states that wavefronts are composed by a lot of dots. Treat each dot on a wavefront as a source of new waves, and each new wave continues to propagate from the original point. Huygens's principle can clearly visualise the process of wave propagation, diffraction, and refraction. As shown in Figure 7, demonstrates a lot of dots can form a wavefront.
+    
+    \paragraph{}
+    When Fresnel diffraction occurred on a straight edge, the expected graph is shown on Figure 8. The y-axis is intensity, and x-axis is the distance from original point.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{12.png}
+    \caption{Ideal Graph for Fresnel Diffraction}
+    \end{figure}
+    
+    \subsection{Question 9}
+    \paragraph{}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{14.jpg}
+    \caption{Setup for the Diffraction Experiment\cite{8}}
+    \end{figure}
+    As shown in Figure 9, there is a conducting screen placing between the source emitter and the receiver. Slide the conducting screen along the x direction slowly, and record the data from the horn. To ensure the success of the experiment, do not put the screen too close to the source. However, this experiment is conducted remotely; the desired data is given on the special lab script instruction. Download the data file and plot the graph. In the real lab, the ruler must be calibrated, the given ruler reading is 92.3cm from the script. To process these data; the calibrated displacement = 92.3cm - recorded displacement. Hence, the graph is plotted in Figure 10. Furthermore, the instruction is required to normalise the intensity. Use the steady value of the intensity, 0.3492, to normalise the y-axis. The processed graph is shown in Figure 11. The detailed MatLab code is on A.5.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{15.jpg}
+    \caption{Graph for Received Intensity versus Position of the Screen}
+    \end{figure}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{16.jpg}
+    \caption{Graph for Normalised Received Intensity versus Position of the Screen}
+    \end{figure}
+    Compare Figure 8 and 11, they are very similar in shape. For the ideal model, the curve starts from -2. The measured data starts from -8. Both graphs have same maximum points. After the maximum points, both curves begin to oscillate and decay to the steady state, but in the real situation, the curve oscillates less. As for the conducting screen, it may absorb some of EM wave, this may cause an error to the final results. In contrast, an opaque screen will stop and reflect and the EM wave. The result will be different if an orthogonal polarisation is an incident on the screen. The intensity received by the receiver may keep unchanged, or decrease depends on the direction of waves oscillation.
+    
+    \subsection{Question 10}
+    \paragraph{}
+    The electromagnetic wave is a transverse wave that contains both electric field and magnetic field. These two fields oscillate perpendicular to each other. A polarised EM wave only includes the electric field in one plane, and the magnetic field is removed. A polariser is an optical glass to filter the EM wave; it only allows the EM wave with specific oscillating angles to pass through the polariser. Sunglasses are examples of the polariser application. Those sunglasses with polarising function can filter the light; some waves with different directions of oscillation will be stopped by glasses. Therefore, the intensity of reflected light in the environment will be reduced to meet the anti-glare function.
+    
+    \paragraph{}
+    A source emits a polarised wave followed by a polariser. Then the wave passed is received by the receiver. When the oscillating direction of the emitted wave matches with the direction of the polariser, the emitted wave can pass the polariser freely; the intensity will not be affected. Start turning the polariser; the intensity received tend to decrease continuously. The wave will be totally blocked when the polariser direction is perpendicular to the emitted wave's oscillating direction. The intensity rises again when the polariser continues to turn around and becomes zero when the angle is 90 degrees.
+    
+
+    \subsection{Question 11}
+    \paragraph{}
+    This question is to investigate which direction of the wave is polarised by placing a wire grid or wire mesh. Use the same experimental setup and put a wire grid between the source and the receiver. Rotate the grid of mesh to observe the intensity received. Since this part is conducted remotely, the provided data is shown in Figure 12.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{17.jpg}
+    \caption{Intensity Received for Wire Grid and Wire Mesh\cite{9}}
+    \end{figure}
+    As for the wire grid, the intensity received is 0.33 when the wire grid is horizontal. Then, rotate the wire grid for 90 degrees, and the wire grid is vertical now. The intensity received is 0.015, which is quite small compared with the previous value. This phenomenon means that the polarised wave source can pass through the horizontal wires. The emitted wave oscillates horizontally. Therefore, the source is horizontally polarised. 
+    \paragraph{}
+    Replace the wire grid with wire mesh. The maximum intensity received is 0.28 when the long diagonal is horizontal. Rotate the wire mesh 90 degrees clockwise or anti-clockwise. The intensity is 0.1, which confirms the emitted wave is horizontally polarised. 
+    \paragraph{}
+    The Wire grid is more effective as a polariser. From the data in Figure 12, the maximum value of intensity received for wire grid is 0.33, which is greater than the value of the wire mesh(0.28). As for their minimum value, the intensity received for wire grid is 0.015, which is much smaller than the value of the wire mesh. By analysing these values, wire grid allows more wave to pass through it when the emitted wave and wires have the same direction. Wire grid also blocks most wave when wires are perpendicular to the oscillating direction of the emitted wave. This verifies that the wire grid is more effective to be a polariser.
+
+    \section{Conclusions}
+    \paragraph{}
+    Part one of this lab mainly focused on the interference of waves. This phenomenon was simulated on MatLab and used the theoretical value to compare with relevant approximations and measured data. Then, the relative permittivity of the dielectric slab was calculated(2.617) by the shifted wave. Six plotted MatLab graphs for normalised array factor investigated the properties of antenna arrays.
+    
+    \paragraph{}
+    Part two of this lab explored diffraction and polarisation. Since this part was conducted remotely, the data obtained from practical works were provided. Huygens's principle and Fresnel's diffraction were discussed. Then, use predicted Fresnel's diffraction compares with the graph obtained from measurements. The definition of polarisation mentioned as well. Later, two types of polariser were used to verify the expectation.
+    
+    \newpage   
+    \begin{thebibliography}{}
+    \bibitem{1}
+    Science.nasa.gov. 2020. Anatomy Of An Electromagnetic Wave | Science Mission Directorate. [online] Available at: https://science.nasa.gov/ems/02\_anatomy [Accessed 5 April 2020].
+    \bibitem{2}
+    En.wikipedia.org. 2020. Wave Interference. [online] Available at: https://en.wikipedia.org/wiki/Wave\_interference [Accessed 5 April 2020].
+    \bibitem{3}
+    Fernandez, A., 2020. EM Lab Script. [ebook] UCL, Page 2. Available at: https://moodle.ucl.ac.uk/pluginfile.php/434449/mod\_resource/content/8/LabScript-2018-19.pdf [Accessed 5 April 2020].
+    \bibitem{4}
+    Fernandez, A., 2020. EM Lab Script. [ebook] UCL, Page 4. Available at: https://moodle.ucl.ac.uk/pluginfile.php/434449/mod\_resource/content/8/LabScript-2018-19.pdf [Accessed 5 April 2020].
+    \bibitem{5}
+    En.wikipedia.org. 2020. Antenna Array. [online] Available at: https://en.wikipedia.org/wiki/Antenna\_array [Accessed 6 April 2020].
+    \bibitem{6}
+    Fernandez, A., 2020. EM Lab Script. [ebook] UCL, Page 5. Available at: https://moodle.ucl.ac.uk/pluginfile.php/434449/mod\_resource/content/8/LabScript-2018-19.pdf [Accessed 5 April 2020].
+    \bibitem{7}
+    Site.physics.georgetown.edu. 2020. [online] Available at: http://site.physics.georgetown.edu [Accessed 6 April 2020].
+    \bibitem{8}
+    Fernandez, A., 2020. EM Lab Script. [ebook] UCL, Page 5. Available at: https://moodle.ucl.ac.uk/pluginfile.php/434449/mod\_resource/content/8/LabScript-2018-19.pdf [Accessed 5 April 2020].
+    \bibitem{9}
+    Fernandez, A., 2020. Special Instruction For EM Lab. [ebook] UCL, p.1. Available at: https://moodle.ucl.ac.uk/pluginfile.php/2728075/mod\_resource/content/6/Instructions.pdf [Accessed 5 April 2020].
+    \end{thebibliography}
+    
+    \newpage
+    \appendix
+    \section{MatLab Code}
+    \subsection{Code for Question 2}
+    \begin{lstlisting}
+clear,clc
+d=0.63;             % separation between the sources (in m)
+D=2.55;             % distance from sources to screen (in m)
+lambda=0.03;        % wavelength (in m)
+k=2*pi/lambda;
+
+%actual equation
+x=-0.5:0.001:0.5;   % to cover 50 cm at either side of the centre
+theta1=atan((d/2-x)/D);
+theta2=atan((d/2+x)/D);
+l1=D./cos(theta1);
+l2=D./cos(theta2);
+j=0+1i;
+Et=exp(-j*k*l1)./l1+exp(-j*k*l2)./l2;
+Et=Et.*conj(Et)/(max(Et)^2);
+
+%approximate equation
+apprx_Et = sqrt(4 / D ^ 2 .* (cos(k * d * x / D / 2) .^ 2));
+apprx_Et = apprx_Et.*conj(apprx_Et)/(max(apprx_Et)^2);
+
+y=x*100;            % converting to cm
+plot(y,abs(Et))
+hold on
+plot(y,apprx_Et);
+axis([-50 50 0 1.2]);
+set(gca,'XTick',[-50:10:50])
+title('{\bfInterference pattern}','FontSize',14)
+xlabel('{\bfDistance from the centre of screen (in cm)}')
+ylabel('{\bfRelative Intensity}')
+grid minor
+line([0 0],[0 1.2])
+line([-0.5 0.5],[1 1],'linestyle',':')
+text(-0.48, 1.1,'drawn by {\bf <Suizhong Qin> }')
+legend('Exact Equation','Approximate Equation')
+    \end{lstlisting}
+    \newpage
+    \subsection{Code for Question 4}
+    
+    \begin{lstlisting}
+clear,clc
+d=0.63;             % separation between the sources (in m)
+D=2.55;             % distance from sources to screen (in m)
+lambda=0.03;        % wavelength (in m)
+k=2*pi/lambda;
+
+%actual equation
+x=-0.5:0.001:0.5;   % to cover 50 cm at either side of the centre
+theta1=atan((d/2-x)/D);
+theta2=atan((d/2+x)/D);
+l1=D./cos(theta1);
+l2=D./cos(theta2);
+j=0+1i;
+Et=exp(-j*k*l1)./l1+exp(-j*k*l2)./l2;
+Et=Et.*conj(Et)/(max(Et)^2);
+
+%data from Int1.txt
+data = load('Int1.txt');
+x_data = data(:,1);
+y_data = data(:,2);
+%normalise y_data
+y_normalise = (y_data - min(y_data)) ./ (max(y_data) - min(y_data));
+
+y=x*100;            % converting to cm
+plot(y,abs(Et))
+hold on
+plot(x_data,y_normalise);
+axis([-50 50 0 1]);
+set(gca,'XTick',[-50:10:50])
+title('{\bfInterference pattern}','FontSize',14)
+xlabel('{\bfDistance from the centre of screen (in cm)}')
+ylabel('{\bfNormalised Relative Intensity}')
+grid minor
+
+line([0 0],[0 1.2])
+line([-0.5 0.5],[1 1],'linestyle',':')
+text(-0.48, 1.1,'drawn by {\bf <Suizhong Qin> }')
+legend('Theoretical Curve','Measured Data')
+    \end{lstlisting}
+    
+    \newpage
+    \subsection{Code for Question 6}
+    \begin{lstlisting}
+    clear,clc
+d=0.63;             % separation between the sources (in m)
+D=2.55;             % distance from sources to screen (in m)
+lambda=0.03;        % wavelength (in m)
+k=2*pi/lambda;
+
+%actual equation
+x=-0.5:0.001:0.5;   % to cover 50 cm at either side of the centre
+theta1=atan((d/2-x)/D);
+theta2=atan((d/2+x)/D);
+l1=D./cos(theta1);
+l2=D./cos(theta2);
+j=0+1i;
+Et=exp(-j*k*l1)./l1+exp(-j*k*l2)./l2;
+Et=Et.*conj(Et)/(max(Et)^2);
+
+%data from Int1.txt
+data = load('Int2.txt');
+x_data = data(:,1);
+y_data = data(:,2);
+%normalise y_data
+y_normalise = (y_data - min(y_data)) ./ (max(y_data) - min(y_data));
+
+y=x*100;            % converting to cm
+plot(y,abs(Et))
+hold on
+plot(x_data,y_normalise);
+axis([-50 50 0 1.2]);
+set(gca,'XTick',[-50:10:50])
+title('{\bfInterference Pattern with a Dielectric Sheet}','FontSize',14)
+xlabel('{\bfDistance from the centre of screen (in cm)}')
+ylabel('{\bfNormalised Relative Intensity}')
+grid minor
+
+line([0 0],[0 1.2])
+line([-0.5 0.5],[1 1],'linestyle',':')
+text(-0.48, 1.1,'drawn by {\bf <Suizhong Qin> }')
+legend('Theoretical Curve','Measured Data')
+    \end{lstlisting}
+    
+    \newpage
+    \subsection{Code for Question 7}
+    \begin{lstlisting}
+    clear,clc
+lambda = 1; %define value for each variable
+theta = 0: 0.001:  pi;
+k = 2 * pi / lambda;
+phi = [0 pi/2 pi 0 pi/2 pi];
+d = [lambda/2 lambda/2 lambda/2 lambda/4 lambda/4 lambda/4];
+
+%use a for loop to simplify the code
+for num = 1: 6
+    figure(num)
+    F = 2 * sqrt(cos((phi(num) + k * d(num) * cos(theta) ) / 2) .^ 2);
+    polarplot(theta, F)
+    grid minor
+end
+    \end{lstlisting}
+    
+    \subsection{Code for Question 9}
+    \begin{lstlisting}
+%code for question 9
+%read the table provided
+clc,clear;
+M = xlsread('diffraction.xlsx');
+x = M(:,1);
+y = M(:,2);
+%choose a zero point x_0
+x_0 = 92.3;
+%calibrate reading
+x_calibrate = x_0 - x;
+%normalise the intensity
+N_y = normalize(y,'scale',0.3492);
+plot(x_calibrate,N_y,'x-')
+title('Normalised Intensity versus Position of the Screen')
+xlabel('Displacement of the Screen/cm')
+ylabel('Normalised Intensity')
+grid minor
+    \end{lstlisting}
+    \newpage 
+    \section{Lab Data}
+        \subsection{Table for Question 9}
+            \begin{table}[H]
+                \centering
+                \caption{Provided Data from the Moodle}
+                \begin{tabular}{c c c}
+                \hline
+                Position of Screen(cm) & Received Intensity \\
+                \hline
+                100  & 0         \\
+                99   & 0         \\
+                98   & 0.00485   \\
+                97   & 0.0097    \\
+                96   & 0.01455   \\
+                95   & 0.0251424 \\
+                94   & 0.038412  \\
+                93   & 0.0582    \\
+                92   & 0.1067    \\
+                91   & 0.1552    \\
+                90   & 0.20855   \\
+                89   & 0.27257   \\
+                88   & 0.3492    \\
+                87   & 0.42195   \\
+                86   & 0.47045   \\
+                85   & 0.485     \\
+                84   & 0.47045   \\
+                83   & 0.424375  \\
+                82   & 0.35405   \\
+                81   & 0.30458   \\
+                80   & 0.27548   \\
+                79   & 0.28615   \\
+                \hline
+                \end{tabular}
+            \end{table}
+            \begin{table}[H]
+                \centering
+                \caption{Continue Table 1}
+                \begin{tabular}{c c c}
+                \hline
+                Position of Screen(cm) & Received Intensity \\
+                \hline
+                78   & 0.3492    \\
+                77   & 0.394305  \\
+                76.5 & 0.3977    \\
+                76   & 0.39576   \\
+                75   & 0.3783    \\
+                74   & 0.333195  \\
+                73.5 & 0.32883   \\
+                73   & 0.330285  \\
+                72   & 0.3492    \\
+                71   & 0.36278   \\
+                70   & 0.356475  \\
+                69   & 0.33077   \\
+                68   & 0.3492    \\
+                67   & 0.36375   \\
+                66   & 0.3686    \\
+                65   & 0.3492    \\
+                64.5 & 0.338724  \\
+                64   & 0.345708  \\
+                63   & 0.3589    \\
+                62   & 0.35793   \\
+                61   & 0.3492    \\
+                60   & 0.345708  \\
+                58   & 0.3492    \\
+                53   & 0.3492    \\
+                43   & 0.3492\\
+                \hline
+                \end{tabular}
+            \end{table}
+            
+\end{document}
+                
