@@ -1,0 +1,298 @@
+\documentclass[12pt]{article}
+\usepackage[margin= 1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage[justification=centering]{caption}
+\usepackage[nottoc]{tocbibind}
+\usepackage{fancyhdr}
+\usepackage{wrapfig}
+\usepackage{hyphenat}
+\usepackage{subfigure}
+\usepackage{textcomp}
+\usepackage{mathtools}
+\usepackage{todonotes}
+%\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode}
+\lfoot{}%footer
+\usepackage{amsmath}
+\usepackage{amssymb}
+\setlength{\marginparwidth}{2cm}
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+\cfoot{}
+\rfoot{}
+\makeatletter % `@' now normal "letter"
+\makeatother  % `@' is restored as "non-letter"
+\renewcommand\theequation{\oldstylenums{\thesection}%
+                   .\oldstylenums{\arabic{equation}}}
+
+%title
+\title{ELEC0020 \\Photonics and Communication Systems\\Alternative Assessment Report}
+\author{Candidate Number: FCKC0 \\ \\Department: Electronic and Electrical Engineering \\ University College London}
+
+\begin{document}
+    %cover page
+    \begin{figure}[t] %htbp
+    \centering
+    \includegraphics[width=0.8\textwidth]{logo_ucl.png}
+    \end{figure}
+    \maketitle
+    \thispagestyle{empty}
+    
+    %abstract
+    
+    
+    %contents page
+    \newpage
+    \tableofcontents
+    \thispagestyle{empty}
+    \setcounter{page}{0}
+    
+    %start of the main document
+    \newpage
+    \pagestyle{plain}
+    \section{Abstract}
+    \paragraph{}
+   This report mainly discusses the designing process of the required optical communication system. It includes methods and results for each design step, bit error rate(BER), maximum system length, maximum bit-rate distance product, power density spectrum, suitable pin photodiode design, and different symbols transmission situations.
+   
+    \section{Introduction}
+    \paragraph{}
+    An optical communication system will apply non-return-to-zero (NRZ) amplitude shift keying (ASK). The wavelength of the modulated data in this system is 1550nm. The transmitter will generate rectangular NRZ pulses. In this system, the receiver and transmitter are connected by a standard single-mode optical fibre. This report is aimed to describe and analyse designing process for six main features.
+    
+    
+    
+    \section{Methods and Results}
+    
+    \subsection{Question 1: Bit Error Rate}
+    \paragraph{}
+    Question one investigates the probability of a bit error, $P_e$, also known as the Bit Error Ratio (BER), varies with signal-to-noise ratio (SNR) and $p$. In a digital communication system, BER and SNR are essential factors to evaluate the performance of the system. The BER is calculated by the number of bit errors divided by the total number of bits transferred per unit time. For the whole system, we only consider the SNR at the receiver, where the received signal is highly possible to be affected and distorted by noise. The SNR is defined as the signal power divided by the noise power.
+    
+    \paragraph{}
+    In this optical communication system, the received signal symbols are drawn from an alphabet $\{pA, A\}$, where $0 \leq p < 1$. When the receiver photodiode receives the binary ONE, a photocurrent, $A$ will be generated. $pA$ is the photocurrent when the binary ZERO is received. Hence, the average signal power can be obtained by:
+    \begin{equation}
+        P_{signal}=\frac{A^2+(pA)^2}{2}\times R_{load}
+    \end{equation}
+    The $R_{load}$ is the load resistance for the photodiode. For equation(3.1), it assumes that the probability of binary ONE occurred, and binary ZERO occurred is the same.
+    \paragraph{}
+    The receiver operates under more than one noise in most practical situations, such as the thermal noise and the optical intensity noise. Thus, the Gaussian noise is introduced. In order to simplify the analysing process, these two noises follow a Gaussian Distribution (mean is $\mu$, and standard deviation is $\sigma$). Therefore, the power of the noise is calculated by: $P_{noise}=\sigma^2 \times R_{load}$. Then, the signal-to-noise ratio is obtained by:
+    \begin{equation}
+        SNR_{linear}=\frac{\frac{A^2+(pA)^2}{2}\times R_{load}}{\sigma^2 \times R_{load}} = \frac{A^2+(pA)^2}{2\sigma^2}
+    \end{equation}
+    \begin{equation}
+        SNR_{dB}=10\log_{10}[\frac{A^2+(pA)^2}{2\sigma^2}]
+    \end{equation}
+    The probability of bit error, $P_e$, is calculated below. Meanwhile, to simplify the equation, assume the probability of binary ONE and binary ZERO is the same:
+    \begin{align}
+        P_e &= P(0|1) \cdot P(1) + P(1|0) \cdot P(0)\\
+        &=\frac{1}{2} (P(0|1) + P(1|0))
+    \end{align}
+    The overall probability of bits error (BER) with Gaussian noise is given by:
+    \begin{equation}
+         P_e = \frac{1}{2} \mbox{ erfc}\left( \frac{Q}{\sqrt{2}} \right)
+    \end{equation}
+    where $Q=\frac{\mu_1}{2\sigma}=\frac{A-pA}{2\sigma}=\frac{A(1-p)}{2\sigma}$, then $Q^2$ is:
+    \begin{align}
+        Q^2 &= \frac{A^2(1 - p)^2}{4 \sigma^2}\\ &=\frac{(1 - p)^2}{2 + 2p^2} \cdot\frac{A^2(1 + p^2)}{2 \sigma^2}\\ &=\frac{(1 - p)^2}{2 + 2p^2}SNR_{linear}
+    \end{align}
+    \begin{equation}
+        Q=\sqrt{\frac{(1 - p)^2}{2 + 2p^2}SNR_{linear}}
+    \end{equation}
+    Substitute equation (3.8) into equation (3.6):
+    \begin{align}
+        P_e &= \frac{1}{2} \mbox{ erfc}\left( \frac{\sqrt{\frac{(1 - p)^2}{2 + 2p^2}SNR_{linear}}}{\sqrt{2}} \right)\\&=\frac{1}{2} \ \mbox{erfc} \left( \sqrt{\frac{(1 - p)^2}{4 + 4p^2}SNR_{linear}} \right)\\ &=\frac{1}{2} \ \mbox{erfc} \left( \sqrt{\frac{(1 - p)^2}{4 + 4p^2}\cdot10^{\frac{SNR_{dB}}{10}}} \right)
+    \end{align}
+    Hence, use the equation (3.11) to plot the graph in Figure 1.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{1.png}
+    \caption{BER versus SNR with Different Values of p}
+    \end{figure}
+    Figure 1 demonstrates the relationship between BER and SNR with different values of $p$. In general, with the increase of the SNR, the probability of bit error will decrease. For smaller $p$, the downtrend for the BER is more significant. For larger $p$, these curves are flatter; the BER decreases slightly when SNR rises. As the extinction ratio of the system is given, 8dB. Then, the value of $p$ is:
+    \begin{equation}
+        8dB=10 \log_{10} [\frac{P(A)}{P(pA)}]=10 \log_{10} (\frac{A}{pA})=10 \log_{10} (\frac{1}{p})
+    \end{equation}
+    By calculation, the $p$ is $0.158$. Substitute $p=0.158$ and $P_e=10^{-3}$ into equation (3.11). The $SNR_{dB}=14.2dB$. Therefore, when $p=0.158$, the $SNR_{dB}$ should be greater than $14.2dB$ to achieve a BER less than $10^{-3}$.
+    
+        
+    \subsection{Question 2: Maximum System Length}
+    \paragraph{}
+    Question two aims to find the maximum system length vary with bit rate. Both dispersion and fibre attenuation will limit the system length. The general dispersion in an optical fibre consists of material dispersion and waveguide dispersion. These are also known as fibre chromatic dispersion ($D$). The phase velocity dispersion enables the signal to travel through the fibre at the group velocity, and the group velocity dispersion lets signals to spread out. As for the waveguide dispersion, it is used to give dispersion in a single-mode optical fibre which is lower than the silica itself. Then, it shifts the zero-dispersion wavelength to a longer wavelength. Since the wavelength of the modulated data in this system is 1550$nm$. Under this situation, the chromatic dispersion coefficient is about 17$ps.nm^{-1}.km^{-1}$.
+    
+    \paragraph{}
+    Given the symbol rate is from 1 to 20 $Gbaud$. The symbol rate ($S$) is: $S=B\log2(N)$, where $B$ is the bit rate and $N = 2$. Hence, $S=B$, which means the symbol rate is the same as the bit rate. Since the wavelength difference $\Delta \lambda= \frac{B}{\Delta f}$, where the frequency difference is 125$GHz$. To calculate the maximum length of the system, choose 20 $Gbaud$ as the value of $B$. Hence, the maximum length is:
+    \begin{equation}
+        Length=\frac{1}{\Delta \lambda \cdot B \cdot D}=\frac{\Delta f}{ B^2\cdot D}= \frac{125 \times 10 ^9}{(20 \times 10^9)^2 \times (17 \times 10^{-12}) } = 18.4\mbox{km}
+    \end{equation}
+    For the dispersion-limited case, the obtained value of the maximum length 18.4 km.
+    \paragraph{}
+    Then, consider the noise-limited case. Under this situation, the fibre attenuation is the main cause of the signal loss. At the receiver, the question assume that a minimum SNR of 14 dB is required. Hence, the $SNR_{dB}$ is:
+    \begin{equation}
+        SNR_{dB} = 10 \log_{10} \left( \frac{(R_s P_{in})^2}{\frac{4kTB}{R} + 2 e R_s P_{in} B} \right)
+    \end{equation}
+    where the $R_s$ is the photodiode responsibility, $P_{in}$ is the input power, $R$ is the photodiode resistance. By these given values, $P_{in}=1.62 \times 10^{-5}W$ is obtained by equation (3.14). Given that, the equation for the attenuation coefficient is:
+    \begin{align}
+        \alpha_{dB} &= -\frac{10}{Length}\log _{10} \frac{P_{in}}{P(0)}\\
+        Length &= -\frac{10}{\alpha_{dB}}\log _{10} \frac{P_{in}}{P(0)}\\
+        &=-\frac{10}{0.25}\log _{10} \frac{1.62 \times 10^{-5}}{4}\\
+        &=216km
+    \end{align}
+    In equation (3.15), the $\alpha_{dB}=$ 0.25dB$\cdot$km$^{-1}$, $P_{in}=1.62 \times 10^{-5}W$. $P(0)$ is the average modulated output optical power of 4 dBm. Therefore, the maximum length is 216km for noise-limited case.
+    \paragraph{}
+    For the dispersion part, the bit rate in equation (3.13) is the part of the denominator, which means the maximum length will decrease when the bit rate increases. For fibre attenuation part, by observing equation (3.17), the relationship between bit rate and maximum length shows the same trend. Therefore, the maximum system length will decrease as the bit rate increases.
+    \paragraph{}
+    Combine two maximum lengths together. For the dispersion situation, the maximum system length is 18.4km. As for the fibre attenuation case, the maximum system length is 216km. In order to ensure the whole system stability and performance, 18.4km will be preferred. 18.4km is much shorter than 216km, and it enables the system with less loss. 
+    
+    
+    
+    
+    
+    \subsection{Question 3: Maximum Bit-Rate Distance Product}
+    \paragraph{}
+    Question three requires to calculate the maximum bit-rate distance product. It is defined as the maximum bit-rate that can be transferred with a given dispersion parameter within an optical fibre. The equation is given below:
+    \begin{equation}
+        B \cdot L = \frac{p}{\Delta \lambda |D|} \approx \frac{1}{\Delta \lambda |D|}
+    \end{equation}
+    Since $\Delta \lambda=\frac{B}{\Delta f}$, rearrange the equation (3.19):
+    \begin{equation}
+        B \cdot L = \frac{\Delta f}{B |D|}
+    \end{equation}
+    Substitute $\Delta f = 125GHz$, $B=20Gbaud$, $D=$17$ps.nm^{-1}.km^{-1}$ into equation (3.20)
+    \begin{equation}
+        B \cdot L = \frac{125 \times 10^{9}}{20 \times 10^9 \times 17 \times 10^{-12}} = 3.68 \times 10^{11} \ \mbox{bits} \cdot \mbox{s}^{-1} \cdot \mbox{km}
+    \end{equation}
+    Therefore, the maximum bit-rate distance product is $3.68 \times 10^{11} \ \mbox{bits} \cdot \mbox{s}^{-1} \cdot \mbox{km}$
+    
+    
+    
+    
+    \subsection{Question 4: Power Density Spectrum}
+    \paragraph{}
+    Question four aims to find the power density spectrum of the received signal at a symbol rate of 5Gbaud. The power density spectrum contains the information about the bandwidth and the bandwidth efficiency. The power density spectrum of the equivalent baseband signal is given by:
+    \begin{equation}
+        S_{xl}(f) = \frac{1}{T_s} \cdot S_{Xl}(f) \cdot |P(f)|^2
+    \end{equation}
+    The $P(f)$ is given by:
+    \begin{equation}
+        P(f) = \int_{-\infty}^\infty p(t)\cdot e^{-j2\pi f t}dt
+    \end{equation}
+    Substitute the $P(f)$ into equation (3.22):
+    \begin{equation}
+        S_{Xl}(f) = \sum_{k = -\infty}^\infty R_{Xl}(k) \cdot e^{-j2\pi k f T_s}
+    \end{equation}
+    Then,$R_{Xl}(k)$ is:
+    \begin{equation}
+         R_{Xl}(k) = E\{ X_{i+k} \cdot X_i^* \}
+    \end{equation}
+    Therefore,
+    \begin{equation}
+        P(f)=\int_{-T_s/2}^{+T_s/2} \frac{1}{\sqrt{T_s}}\cdot e^{-j2\pi f t}dt = \sqrt{T_s}\cdot \mbox{sinc} (f T_s)
+    \end{equation}
+    Since the received symbols in this system are drawn from an alphabet $\{pA, A\}$, thus:
+    \begin{equation}
+        R_{Xl} (k) = 
+                \begin{cases}
+                    \frac{A^2 + (pA)^{2}} {2}\ \ k = 0 \\
+                    \frac{(A+pA)^2}{4} \ \ k \neq 0
+                \end{cases}
+    \end{equation}
+    It follows that:
+    \begin{align}
+                S_{Xl}(f) &= \frac{A^2 + (pA)^{2}} {2} + \frac{(A+pA)^2}{4} \cdot (\sum_{k = -\infty}^\infty e^{-j2\pi kfT_s} - 1) \notag \\
+            \end{align}
+    
+    \subsection{Question 5: Pin Photodiode Design}
+    \paragraph{}
+    Question five is required to design a suitable pin photodiode with the system at a symbol rate of 5Gbaud. A photodiode is a semiconductor device converts light into an electrical signal. A pin photodiode stands for p-i-n junction. There is a region of undoped (or lightly doped) intrinsic material placing between the p doped and n doped regions. Photons in this region can be absorbed and separated by the depletion field. An external current will be generated under this situation. Thus, the external quantum efficiency will rise.
+    \paragraph{}
+    As for the material for the semiconductor, use the equation: $E(eV)=1.240/\lambda(\mu m)$. The corresponding photon energy can be obtained. Given the modulated signal have the wavelength of 1550nm. Thus, $\lambda = 1.55\mu m$, and $E(eV)=1.240 / 1.55 = 0.8eV$.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{3.jpg}
+    \caption{Absorption Coefficients against Wavelength for PD Materials }
+    \end{figure}
+    From Figure 2, The band-gap energies for Si, GaAs, InP and In$_{0.7}$Ga$_{0.3}$As$_{0.64}$P$_{0.36}$ is greater than the calculated $E(eV)=0.8eV$. The absorption coefficient for these materials is lower than $1\times 10^3 m^{-1}$. Therefore, Si, InP, GaAs, and In$_{0.7}$Ga$_{0.3}$As$_{0.64}$P$_{0.36}$ are unsuitable materials for this pin photodiode design. From the graph, the Ge has band-gap energy around 0.8$eV$, the band-gap energy of In$_{0.53}$Ga$_{0.47}$As is less than 0.8eV. As for their absorption coefficient, the Ge's value drops significantly at $\lambda=1.55 \mu m$. The value for In$_{0.53}$Ga$_{0.47}$As is around $1 \times 10^6m^{-1}$. Therefore, In$_{0.53}$Ga$_{0.47}$As is the best choice among these materials.
+    \paragraph{}
+    Then, consider the layer thickness. Given the intrinsic later width satisfies that, and $B=5GHz$:
+    \begin{equation}
+        t_c < \frac{1}{2B} = 1 \times 10^{-10}\mbox{s}
+    \end{equation}
+    \begin{equation}
+        t_c = \frac{x}{v}
+    \end{equation}
+    where $t_c$ is chosen as $1 \times 10^{-10}$ and $v$ is the saturated drift velocity, $v=10^5 ms^{-1}$.Thus:
+    \begin{equation}
+         x < t_c\cdot v = 10\mu m
+    \end{equation}
+    The intrinsic layer thickness can be 10$\mu m$.
+    \paragraph{}
+    As for the device area, from the junction discharge time, it is given that:
+    \begin{equation}
+         B = \frac{1}{2 \pi R C}
+    \end{equation}
+    \begin{equation}
+         C = \frac{1}{2 \pi R_L B}=\frac{1}{2\pi \times 50 \times 5 \times 10^9} = 6.37 \times10^{-13}F
+    \end{equation}
+    where the load resistance in this system is assumed to be 50$\Omega$.
+    \begin{equation}
+        C = \frac{\epsilon_r\cdot \epsilon_0 \cdot A}{x}
+    \end{equation}
+    Rearrange the equation (3.34):
+    \begin{equation}
+        A =  \frac{6.37 \times 10^{-13} \times 10 \times 10^{-6}}{13 \times 8.85 \times 10 ^ {-12}} = 5.54 \times 10^{-8}\mbox{m}^2
+    \end{equation}
+    \paragraph{}
+    For the pin photodiode design, In$_{0.53}$Ga$_{0.47}$As is the most suitable semiconductor, the intrinsic layer is about 10$\mu m$. The device area is $5.54 \times 10^{-8}\mbox{m}^2$.
+    
+    
+    
+    \subsection{Question 6: Symbol Transmission with Unequal Probability}
+    \paragraph{}
+    Question six investigates the symbol transmission with unequal probability. From the previous questions, this optical communication system is assumed that the bit error ratio is the same for each symbol. However, in the real situation, the probability is unequal. In the system, assume that the transmit symbols $X_k$ are drawn from the alphabet $\{ A_0 = pA, A_1 = A \}$. Let $P(X_k = A) = p_1$ and $P(X_k = pA) = p_2$, where $p_1+p_2=1$.
+    \paragraph{}
+    When $X_k = pA$, the decision region:
+    \begin{align}
+                D_1 &= \left\{ Y_k \in \mathfrak{R}: p_1 \frac{1}{\sqrt{\pi N_0}} e^{-\frac{(Y_k - pA)^2}{N_0}} > p_2 \frac{1}{\sqrt{\pi N_0}} e^{-\frac{(Y_k + A) ^2}{N_0}} \right\} \notag \\
+                &= \left\{ Y_k \in \mathfrak{R}: Y_k < \frac{N_0 \ln \frac{p_1}{p_2} + A^2(1 - p)}{2A - 2pA} \right\}
+            \end{align}
+    \paragraph{}
+    When $X_k = A$, the decision region:
+    \begin{align}
+                D_2 &= \left\{ Y_k \in \mathfrak{R}: p_2 \frac{1}{\sqrt{\pi N_0}} e^{-\frac{(Y_k - A) ^2}{N_0}} > p_1 \frac{1}{\sqrt{\pi N_0}} e^{-\frac{(Y_k - pA)^2}{N_0}}\right\} \notag \\
+                &= \left\{ Y_k \in \mathfrak{R}: Y_k > \frac{N_0 \ln \frac{p_1}{p_2} + A^2(1 - p)}{2A - 2pA} \right\}
+            \end{align}
+    Therefore, by $D_1$ and $D_2$, a general equation for a decision threshold that minimises BER:
+    \begin{equation}
+        \mbox{Decision Threshold}=\frac{N_0 \ln \frac{p_1}{p_2} + A^2(1 - p)}{2A - 2pA}
+    \end{equation}
+    The sketch of the decision region is:
+    \begin{figure}[H]
+                \centering
+                \subfigure[$p_1 <$ 0.5]{
+                \begin{minipage}[H]{0.48\linewidth}
+                \centering
+                \includegraphics[width=\textwidth]{4.jpg}
+                %\caption{a}
+                \end{minipage}%
+                }%
+                \subfigure[$p_1 >$ 0.5]{
+                \begin{minipage}[H]{0.48\linewidth}
+                \centering
+                \includegraphics[width=\textwidth]{5.jpg}
+                %\caption{b}
+                \end{minipage}%
+                }%
+                \centering
+                
+            \end{figure}
+    When $p$ tends to be zero, the boundary will shift from right to left. Meanwhile, the bit error ratio is reduced when $p$ decreases.
+    
+    
+    \section{Conclusion}
+    \paragraph{}
+    This report demonstrates the design process for the required optical communication system. Start from the bit error rate calculation. When $p$ is 0.158, the $SNR_{dB}$ should be greater than 14.2dB to achieve a BER less than $10^{-3}$. Then, by considering two cases, dispersion and fibre attenuation, the maximum system length is about 18.4km. The maximum bit-rate distance product is $3.68 \times 10^{11} \ \mbox{bits} \cdot \mbox{s}^{-1} \cdot \mbox{km}$. Later, the pin photodiode is designed, and the In$_{0.53}$Ga$_{0.47}$As is the most suitable semiconductor, the intrinsic layer is about 10$\mu m$. The device area is $5.54 \times 10^{-8}\mbox{m}^2$. Finally, the symbol transmission with unequal probability in real situation is considered. Overall, the features of this system satisfy all requirements.
+    
+    
+    
+\end{document}
+                
